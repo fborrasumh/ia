@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aplicaciones IA — Suite local con Ollama</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#07080d;--surface:#0e1018;--border:#1c2030;--accent:#5b6eff;--accent2:#00e5c4;--text:#e8eaf2;--muted:#5a6080;--card-bg:#0c0e18}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:'Syne',sans-serif;min-height:100vh;overflow-x:hidden}
+body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(91,110,255,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(91,110,255,0.04) 1px,transparent 1px);background-size:48px 48px;pointer-events:none;z-index:0}
+.orb{position:fixed;border-radius:50%;filter:blur(120px);opacity:.15;pointer-events:none;z-index:0}
+.orb-1{width:600px;height:600px;background:#5b6eff;top:-200px;left:-150px}
+.orb-2{width:500px;height:500px;background:#00e5c4;bottom:100px;right:-150px}
+header{position:relative;z-index:10;text-align:center;padding:80px 24px 60px}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font-family:'DM Mono',monospace;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--accent2);border:1px solid rgba(0,229,196,.25);padding:6px 16px;border-radius:100px;margin-bottom:32px;animation:fadeUp .6s ease both}
+.eyebrow::before{content:'';width:6px;height:6px;background:var(--accent2);border-radius:50%;animation:blink 2s infinite}
+h1{font-size:clamp(48px,8vw,96px);font-weight:800;line-height:.95;letter-spacing:-.03em;animation:fadeUp .6s .1s ease both}
+h1 .line1{display:block;color:var(--text)}
+h1 .line2{display:block;background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.subtitle{margin:24px auto 0;font-size:15px;color:var(--muted);font-family:'DM Mono',monospace;font-weight:300;max-width:520px;line-height:1.7;animation:fadeUp .6s .2s ease both}
+#status-bar{position:relative;z-index:10;display:flex;align-items:center;justify-content:center;gap:12px;margin:28px auto 0;max-width:440px;padding:10px 20px;background:rgba(14,16,24,.8);border:1px solid var(--border);border-radius:100px;font-family:'DM Mono',monospace;font-size:12px;animation:fadeUp .6s .3s ease both;backdrop-filter:blur(8px)}
+.status-dot{width:8px;height:8px;border-radius:50%;background:#374151;flex-shrink:0;transition:background .4s}
+.status-dot.ok{background:#00e5c4;box-shadow:0 0 8px #00e5c4;animation:blink 2s infinite}
+.status-dot.err{background:#f87171}
+#status-text{color:var(--muted);transition:color .4s;flex:1}
+#status-text.ok{color:var(--accent2)}
+#status-text.err{color:#f87171}
+#btn-setup{padding:4px 12px;border-radius:100px;border:1px solid rgba(91,110,255,.3);background:rgba(91,110,255,.1);color:var(--accent);font-family:'DM Mono',monospace;font-size:11px;cursor:pointer;transition:background .2s;white-space:nowrap}
+#btn-setup:hover{background:rgba(91,110,255,.2)}
+#download-banner{position:relative;z-index:10;margin:32px auto 0;max-width:760px;padding:0 24px;animation:fadeUp .6s .35s ease both}
+.download-box{display:flex;align-items:center;gap:20px;padding:22px 28px;background:linear-gradient(135deg,rgba(91,110,255,.08),rgba(0,229,196,.05));border:1px solid rgba(91,110,255,.25);border-radius:16px;flex-wrap:wrap}
+.download-info{flex:1;min-width:200px}
+.download-info strong{display:block;font-size:15px;margin-bottom:4px}
+.download-info span{font-family:'DM Mono',monospace;font-size:12px;color:var(--muted)}
+#btn-download{display:flex;align-items:center;gap:8px;padding:12px 24px;background:linear-gradient(135deg,var(--accent),#7c8dff);color:#fff;border:none;border-radius:12px;font-family:'Syne',sans-serif;font-size:14px;font-weight:700;cursor:pointer;white-space:nowrap;transition:transform .2s,box-shadow .2s;letter-spacing:.02em}
+#btn-download:hover{transform:translateY(-2px);box-shadow:0 8px 30px rgba(91,110,255,.35)}
+#btn-download svg{width:16px;height:16px}
+.divider{display:flex;align-items:center;gap:20px;max-width:1100px;margin:40px auto 0;padding:0 24px;animation:fadeUp .5s ease both;opacity:0;animation-fill-mode:both}
+.divider-line{flex:1;height:1px;background:var(--border)}
+.divider-label{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);white-space:nowrap}
+.grid{position:relative;z-index:10;display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:16px;max-width:1100px;margin:16px auto 0;padding:0 24px 16px}
+.card{position:relative;background:var(--card-bg);border:1px solid var(--border);border-radius:16px;padding:28px 28px 24px;text-decoration:none;color:inherit;display:flex;flex-direction:column;gap:14px;overflow:hidden;transition:transform .25s,border-color .25s,box-shadow .25s;animation:fadeUp .5s ease both}
+.card:hover{transform:translateY(-6px);border-color:var(--accent);box-shadow:0 0 40px rgba(91,110,255,.15),0 20px 40px rgba(0,0,0,.4)}
+.card::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(91,110,255,.06) 0%,transparent 60%);opacity:0;transition:opacity .25s;border-radius:inherit}
+.card:hover::before{opacity:1}
+.card::after{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--accent),var(--accent2));transform:scaleX(0);transform-origin:left;transition:transform .3s;border-radius:16px 16px 0 0}
+.card:hover::after{transform:scaleX(1)}
+.card.tool{border-color:rgba(0,229,196,.15)}
+.card.tool:hover{border-color:var(--accent2);box-shadow:0 0 40px rgba(0,229,196,.12),0 20px 40px rgba(0,0,0,.4)}
+.card.tool::before{background:linear-gradient(135deg,rgba(0,229,196,.06) 0%,transparent 60%)}
+.card.tool::after{background:linear-gradient(90deg,var(--accent2),var(--accent))}
+.card-icon{width:52px;height:52px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:26px;background:rgba(91,110,255,.1);border:1px solid rgba(91,110,255,.2);flex-shrink:0;transition:background .25s}
+.card:hover .card-icon{background:rgba(91,110,255,.18)}
+.card.tool .card-icon{background:rgba(0,229,196,.08);border-color:rgba(0,229,196,.2)}
+.card.tool:hover .card-icon{background:rgba(0,229,196,.15)}
+.card-content{flex:1}
+.card-name{font-size:20px;font-weight:700;letter-spacing:-.02em;margin-bottom:6px}
+.card-desc{font-size:13px;color:var(--muted);line-height:1.6;font-family:'DM Mono',monospace;font-weight:300}
+.card-tags{display:flex;flex-wrap:wrap;gap:6px}
+.tag{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.1em;text-transform:uppercase;padding:3px 10px;border-radius:100px;background:rgba(91,110,255,.08);border:1px solid rgba(91,110,255,.2);color:var(--accent)}
+.card.tool .tag{background:rgba(0,229,196,.06);border-color:rgba(0,229,196,.2);color:var(--accent2)}
+.card-footer{display:flex;align-items:center;justify-content:space-between;margin-top:4px}
+.card-arrow{font-size:18px;color:var(--muted);transition:color .2s,transform .2s}
+.card:hover .card-arrow{color:var(--accent);transform:translate(4px,-4px)}
+.card.tool:hover .card-arrow{color:var(--accent2)}
+.card-local-badge{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:.12em;text-transform:uppercase;padding:2px 8px;border-radius:100px;background:rgba(0,229,196,.08);border:1px solid rgba(0,229,196,.2);color:var(--accent2);opacity:0;transition:opacity .3s}
+.ollama-ok .card-local-badge{opacity:1}
+.card:nth-child(1){animation-delay:.1s}.card:nth-child(2){animation-delay:.15s}.card:nth-child(3){animation-delay:.2s}.card:nth-child(4){animation-delay:.25s}.card:nth-child(5){animation-delay:.3s}.card:nth-child(6){animation-delay:.35s}.card:nth-child(7){animation-delay:.4s}
+footer{position:relative;z-index:10;text-align:center;padding:40px 24px;margin-top:40px;border-top:1px solid var(--border);font-family:'DM Mono',monospace;font-size:11px;color:var(--muted);letter-spacing:.1em}
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+
+/* WIZARD */
+#wizard-overlay{position:fixed;inset:0;z-index:3000;background:rgba(7,8,13,.92);backdrop-filter:blur(12px);display:flex;align-items:center;justify-content:center;padding:24px;opacity:1;transition:opacity .35s ease;overflow-y:auto}
+#wizard-overlay.hidden{opacity:0;pointer-events:none}
+#wizard-box{background:#f8fafc;border-radius:20px;max-width:540px;width:100%;padding:36px 36px 28px;position:relative;box-shadow:0 40px 80px rgba(0,0,0,.5);margin:auto}
+.wiz-header{text-align:center;margin-bottom:28px}
+.wiz-header h2{font-size:22px;font-weight:800;color:#0f172a;letter-spacing:-.02em}
+.wiz-header p{font-size:13px;color:#64748b;margin-top:6px;line-height:1.5}
+.wiz-step{margin-bottom:16px;padding:20px;background:#fff;border:1px solid #e2e8f0;border-radius:14px;transition:opacity .25s}
+.wiz-step.locked{opacity:.35;pointer-events:none}
+.wiz-step.done{border-color:#86efac;background:#f0fdf4}
+.wiz-step-header{display:flex;align-items:center;gap:12px;margin-bottom:14px}
+.step-num{width:32px;height:32px;border-radius:50%;background:#0f172a;color:#fff;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;flex-shrink:0;transition:background .3s;font-family:'DM Mono',monospace}
+.wiz-step.done .step-num{background:#22c55e}
+.step-title{font-size:14px;font-weight:700;color:#0f172a}
+.step-subtitle{font-size:12px;color:#64748b;margin-top:1px}
+#btn-detect{display:flex;align-items:center;gap:8px;padding:10px 20px;background:#0f172a;color:#fff;border:none;border-radius:10px;font-size:13px;font-weight:600;cursor:pointer;transition:background .2s;font-family:'Syne',sans-serif}
+#btn-detect:hover{background:#1e293b}
+#detect-result{margin-top:12px;font-size:12px;color:#22c55e;font-family:'DM Mono',monospace;min-height:20px;line-height:1.5}
+.cmd-block{margin-bottom:10px}
+.cmd-label{font-size:11px;color:#64748b;margin-bottom:5px;font-family:'DM Mono',monospace;letter-spacing:.05em}
+.cmd-row{display:flex;align-items:center;gap:8px}
+.cmd-code{flex:1;background:#0f172a;color:#7dd3fc;font-family:'DM Mono',monospace;font-size:12px;padding:10px 14px;border-radius:8px;overflow-x:auto;white-space:nowrap;scrollbar-width:thin}
+.btn-copy{flex-shrink:0;padding:8px 12px;background:#f1f5f9;border:1px solid #e2e8f0;border-radius:8px;font-size:11px;cursor:pointer;transition:background .2s,color .2s;font-family:'DM Mono',monospace;white-space:nowrap}
+.btn-copy:hover{background:#e2e8f0}
+.btn-copy.copied{background:#dcfce7;color:#16a34a;border-color:#86efac}
+#models-toggle{background:none;border:none;font-size:12px;color:#5b6eff;cursor:pointer;margin-top:10px;font-family:'DM Mono',monospace}
+#models-toggle:hover{text-decoration:underline}
+#models-list{display:none;margin-top:10px;border:1px solid #e2e8f0;border-radius:10px;overflow:hidden}
+#models-list.open{display:block}
+.model-row{display:flex;align-items:center;gap:10px;padding:10px 14px;border-bottom:1px solid #f1f5f9;background:#fff}
+.model-row:last-child{border-bottom:none}
+.model-row.disabled{opacity:.4}
+.model-info{flex:1}
+.model-name{font-size:12px;font-weight:600;color:#0f172a;font-family:'DM Mono',monospace}
+.model-meta{font-size:11px;color:#94a3b8}
+.btn-use-model{padding:4px 12px;font-size:11px;border:1px solid #5b6eff;border-radius:6px;color:#5b6eff;background:none;cursor:pointer;font-family:'DM Mono',monospace;white-space:nowrap}
+.btn-use-model:hover{background:rgba(91,110,255,.1)}
+#btn-connect{width:100%;padding:13px;background:linear-gradient(135deg,#5b6eff,#7c8dff);color:#fff;border:none;border-radius:12px;font-size:15px;font-weight:700;cursor:pointer;transition:transform .2s,box-shadow .2s;font-family:'Syne',sans-serif}
+#btn-connect:hover{transform:translateY(-2px);box-shadow:0 8px 30px rgba(91,110,255,.35)}
+#connect-result{margin-top:12px;font-size:12px;font-family:'DM Mono',monospace;min-height:20px;line-height:1.5}
+#connect-result.ok{color:#16a34a}
+#connect-result.err{color:#dc2626}
+.https-block{background:#fefce8;border:1px solid #fde047;border-radius:10px;padding:14px;margin-top:12px;display:none}
+.https-block.show{display:block}
+.https-block p{font-size:12px;color:#713f12;margin-bottom:8px;line-height:1.5}
+.https-block ol{font-size:12px;color:#713f12;padding-left:16px;line-height:1.8}
+.wiz-footer{text-align:center;margin-top:16px}
+.wiz-footer button{background:none;border:none;font-size:12px;color:#94a3b8;cursor:pointer;font-family:'DM Mono',monospace}
+.wiz-footer button:hover{color:#5b6eff}
+@media(max-width:600px){#wizard-box{padding:24px 18px 20px}.grid{grid-template-columns:1fr}header{padding:48px 20px 40px}.download-box{flex-direction:column;align-items:flex-start}}
+</style>
+</head>
+<body>
+
+<div class="orb orb-1"></div>
+<div class="orb orb-2"></div>
+
+<!-- WIZARD OVERLAY -->
+<div id="wizard-overlay">
+  <div id="wizard-box">
+    <div class="wiz-header">
+      <h2>🦙 Configura Ollama local</h2>
+      <p>Ejecuta todas las apps de IA sin API key ni costes.<br>Tus datos nunca salen de tu ordenador.</p>
+    </div>
+
+    <!-- Step 1 -->
+    <div class="wiz-step" id="step1">
+      <div class="wiz-step-header">
+        <div class="step-num" id="num1">1</div>
+        <div>
+          <div class="step-title">Detectar tu hardware</div>
+          <div class="step-subtitle">Elegiremos el modelo más adecuado para tu equipo</div>
+        </div>
+      </div>
+      <button id="btn-detect" onclick="detectHardware()">🔍 Detectar hardware</button>
+      <div id="detect-result"></div>
+    </div>
+
+    <!-- Step 2 -->
+    <div class="wiz-step locked" id="step2">
+      <div class="wiz-step-header">
+        <div class="step-num" id="num2">2</div>
+        <div>
+          <div class="step-title">Instalar Ollama y el modelo</div>
+          <div class="step-subtitle">Copia y pega en tu terminal</div>
+        </div>
+      </div>
+      <div class="cmd-block">
+        <div class="cmd-label">① Instalar Ollama</div>
+        <div class="cmd-row">
+          <div class="cmd-code" id="cmd1">brew install ollama</div>
+          <button class="btn-copy" onclick="copyCmd('cmd1',this)">📋 Copiar</button>
+        </div>
+      </div>
+      <div class="cmd-block">
+        <div class="cmd-label">② Descargar y arrancar el modelo</div>
+        <div class="cmd-row">
+          <div class="cmd-code" id="cmd2">ollama run qwen2.5</div>
+          <button class="btn-copy" onclick="copyCmd('cmd2',this)">📋 Copiar</button>
+        </div>
+      </div>
+      <button id="models-toggle" onclick="toggleModels()">▶ Ver otros modelos compatibles</button>
+      <div id="models-list"></div>
+    </div>
+
+    <!-- Step 3 -->
+    <div class="wiz-step locked" id="step3">
+      <div class="wiz-step-header">
+        <div class="step-num" id="num3">3</div>
+        <div>
+          <div class="step-title">Conectar con Ollama</div>
+          <div class="step-subtitle">Verificamos que Ollama está corriendo</div>
+        </div>
+      </div>
+      <button id="btn-connect" onclick="connectOllama()">Conectar con Ollama →</button>
+      <div id="connect-result"></div>
+      <div class="https-block" id="https-block">
+        <p>⚠️ Estás abriendo la página desde <strong>HTTPS</strong>. El navegador bloqueará las peticiones a localhost por política de seguridad mixta.</p>
+        <p><strong>Solución:</strong> ejecuta este comando y reinicia Ollama:</p>
+        <div class="cmd-row" style="margin:8px 0">
+          <div class="cmd-code" id="cmd-origins" style="font-size:11px">OLLAMA_ORIGINS=https://tudominio.com ollama serve</div>
+          <button class="btn-copy" onclick="copyCmd('cmd-origins',this)">📋</button>
+        </div>
+        <ol><li>Cierra Ollama completamente</li><li>Ejecuta el comando de arriba en Terminal</li><li>Pulsa Reintentar</li></ol>
+      </div>
+    </div>
+
+    <div class="wiz-footer">
+      <button onclick="skipWizard()">¿Ya tienes Ollama instalado? Saltar →</button>
+    </div>
+  </div>
+</div>
+
+<!-- MAIN PAGE -->
+<header>
+  <div class="eyebrow">Aplicaciones con IA</div>
+  <h1><span class="line1">Suite de</span><span class="line2">herramientas IA</span></h1>
+  <p class="subtitle">Apps multi-agente para investigación, docencia y escritura académica. Online con OpenAI o en local con Ollama — sin API key, coste $0.00.</p>
+</header>
+
+<div id="status-bar">
+  <div class="status-dot" id="status-dot"></div>
+  <span id="status-text">Comprobando Ollama…</span>
+  <button id="btn-setup" onclick="openWizard()">⚙ Configurar</button>
+</div>
+
+<div id="download-banner">
+  <div class="download-box">
+    <div class="download-info">
+      <strong>Versión local con Ollama</strong>
+      <span>Descarga este fichero y ábrelo con doble-click — sin instalación, sin nube, sin costes.</span>
+    </div>
+    <button id="btn-download" onclick="downloadLocalVersion()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+      Descargar HTML local
+    </button>
+  </div>
+</div>
+
+<!-- Section 1 -->
+<div class="divider" style="animation-delay:.3s">
+  <div class="divider-line"></div>
+  <span class="divider-label">Investigación &amp; escritura académica</span>
+  <div class="divider-line"></div>
+</div>
+<div class="grid">
+  <a class="card" href="https://fborrasumh.github.io/doctoralia/" target="_blank" rel="noopener">
+    <div class="card-icon">🔬</div>
+    <div class="card-content">
+      <div class="card-name">Doctoralia</div>
+      <div class="card-desc">Genera artículos de revisión científica consultando PubMed, arXiv, Semantic Scholar y más bases de datos simultáneamente.</div>
+    </div>
+    <div class="card-tags"><span class="tag">20 agentes</span><span class="tag">Ciencias</span><span class="tag">Word · LaTeX</span></div>
+    <div class="card-footer"><span class="card-local-badge">🦙 local</span><span class="card-arrow">↗</span></div>
+  </a>
+  <a class="card" href="https://fborrasumh.github.io/humanitas/" target="_blank" rel="noopener">
+    <div class="card-icon">📜</div>
+    <div class="card-content">
+      <div class="card-name">Humanitas</div>
+      <div class="card-desc">Revisiones para Humanidades, Ciencias Sociales y Derecho. JSTOR, SSRN, PhilPapers, Dialnet y más repositorios especializados.</div>
+    </div>
+    <div class="card-tags"><span class="tag">Humanidades</span><span class="tag">Derecho</span><span class="tag">5 fases</span></div>
+    <div class="card-footer"><span class="card-local-badge">🦙 local</span><span class="card-arrow">↗</span></div>
+  </a>
+  <a class="card" href="https://fborrasumh.github.io/manuscriptor/" target="_blank" rel="noopener">
+    <div class="card-icon">✦</div>
+    <div class="card-content">
+      <div class="card-name">Manuscriptor</div>
+      <div class="card-desc">Convierte datos en artículo científico completo. Citas reales, normas de revista, edición inline, exportación PDF y Word.</div>
+    </div>
+    <div class="card-tags"><span class="tag">Artículo</span><span class="tag">PDF · Word</span><span class="tag">Streaming</span></div>
+    <div class="card-footer"><span class="card-local-badge">🦙 local</span><span class="card-arrow">↗</span></div>
+  </a>
+</div>
+
+<!-- Section 2 -->
+<div class="divider" style="animation-delay:.45s">
+  <div class="divider-line"></div>
+  <span class="divider-label">Docencia &amp; formación</span>
+  <div class="divider-line"></div>
+</div>
+<div class="grid">
+  <a class="card" href="https://fborrasumh.github.io/genia/" target="_blank" rel="noopener">
+    <div class="card-icon">✏️</div>
+    <div class="card-content">
+      <div class="card-name">Genia</div>
+      <div class="card-desc">Programaciones didácticas completas adaptadas a la LOMLOE y los decretos 107/2022 y 108/2022 de la Comunitat Valenciana.</div>
+    </div>
+    <div class="card-tags"><span class="tag">LOMLOE</span><span class="tag">18 secciones</span><span class="tag">C. Valenciana</span></div>
+    <div class="card-footer"><span class="card-local-badge">🦙 local</span><span class="card-arrow">↗</span></div>
+  </a>
+  <a class="card" href="https://fborrasumh.github.io/pericia/" target="_blank" rel="noopener">
+    <div class="card-icon">📚</div>
+    <div class="card-content">
+      <div class="card-name">Pericia</div>
+      <div class="card-desc">Crea cursos completos con IA: define el tema, revisa el índice generado y obtén contenido, evaluación y proyectos listos para exportar.</div>
+    </div>
+    <div class="card-tags"><span class="tag">Cursos IA</span><span class="tag">Multi-agente</span><span class="tag">Exportar</span></div>
+    <div class="card-footer"><span class="card-local-badge">🦙 local</span><span class="card-arrow">↗</span></div>
+  </a>
+</div>
+
+<!-- Section 3 -->
+<div class="divider" style="animation-delay:.6s">
+  <div class="divider-line"></div>
+  <span class="divider-label">Herramientas especializadas</span>
+  <div class="divider-line"></div>
+</div>
+<div class="grid">
+  <a class="card tool" href="https://fborrasumh.github.io/memoria/" target="_blank" rel="noopener">
+    <div class="card-icon">📄</div>
+    <div class="card-content">
+      <div class="card-name">MemorIA</div>
+      <div class="card-desc">Pipeline de 6 agentes para redactar memorias de innovación. Lee la convocatoria PDF, contextualiza la empresa y redacta sección a sección.</div>
+    </div>
+    <div class="card-tags"><span class="tag">6 agentes</span><span class="tag">Convocatorias</span><span class="tag">Presupuesto</span></div>
+    <div class="card-footer"><span class="card-local-badge">🦙 local</span><span class="card-arrow">↗</span></div>
+  </a>
+  <a class="card tool" href="https://fborrasumh.github.io/vigilator/" target="_blank" rel="noopener">
+    <div class="card-icon">🛡️</div>
+    <div class="card-content">
+      <div class="card-name">Vigilator</div>
+      <div class="card-desc">Inteligencia competitiva automatizada. Pipeline multi-agente: Scout, Architect, Analyst, Validator, Briefer y Estratega.</div>
+    </div>
+    <div class="card-tags"><span class="tag">Competencia</span><span class="tag">Web search</span><span class="tag">Briefings</span></div>
+    <div class="card-footer"><span class="card-local-badge">🦙 local</span><span class="card-arrow">↗</span></div>
+  </a>
+</div>
+
+<footer>
+  Versión online: usa tu API key de OpenAI directamente en el navegador &nbsp;·&nbsp;
+  Versión local: <span style="color:var(--accent2)">Ollama · $0.00 · sin nube · doble-click</span>
+</footer>
+
+<script>
+var hw={ram:8,vram:0,gpu:'',os:'mac',model:'qwen2.5'};
+var MODELS=[
+  {id:'llama3.2:1b',size:0.8,desc:'Ultra-ligero, respuestas rápidas',minRam:2},
+  {id:'llama3.2',size:2,desc:'Rápido, buena relación calidad',minRam:4},
+  {id:'phi3.5',size:2.2,desc:'Microsoft, muy eficiente',minRam:4},
+  {id:'mistral',size:4.1,desc:'Excelente en textos largos',minRam:6},
+  {id:'qwen2.5',size:4.7,desc:'Mejor en español, recomendado ★',minRam:8},
+  {id:'llama3.1',size:4.7,desc:'Meta, muy equilibrado',minRam:8},
+  {id:'deepseek-r1',size:4.7,desc:'Razonamiento paso a paso',minRam:8},
+  {id:'gemma2',size:5.5,desc:'Google, muy preciso',minRam:10},
+  {id:'qwen2.5:14b',size:9,desc:'Alta calidad, más lento',minRam:16},
+  {id:'phi4',size:9.1,desc:'Microsoft, estado del arte',minRam:16}
+];
+function getOllamaHost(){return 'http://localhost:11434';}
+
+function detectHardware(){
+  var btn=document.getElementById('btn-detect');
+  btn.textContent='⏳ Detectando…';btn.disabled=true;
+  var ua=navigator.userAgent;
+  hw.os=/Mac/.test(ua)?'mac':/Win/.test(ua)?'win':'linux';
+  hw.ram=navigator.deviceMemory||0;
+  if(!hw.ram){var c=navigator.hardwareConcurrency||4;hw.ram=c>=16?32:c>=8?16:c>=4?8:4;}
+  hw.ram=Math.max(hw.ram,4);
+  hw.gpu='GPU desconocida';hw.vram=0;
+  try{
+    var canvas=document.createElement('canvas');
+    var gl=canvas.getContext('webgl')||canvas.getContext('experimental-webgl');
+    if(gl){
+      var ext=gl.getExtension('WEBGL_debug_renderer_info');
+      if(ext){
+        var r=gl.getParameter(ext.UNMASKED_RENDERER_WEBGL);hw.gpu=r;
+        var vmap=[[/RTX\s*409/i,24],[/RTX\s*308/i,10],[/RTX\s*307/i,8],[/RTX\s*306/i,12],[/RTX\s*208/i,8],[/GTX\s*166/i,6],[/Apple\s*M/i,0],[/RX\s*79/i,24],[/RX\s*69/i,16],[/RX\s*68/i,8],[/Arc/i,12],[/RTX\s*406/i,8],[/RTX\s*405/i,16]];
+        for(var i=0;i<vmap.length;i++){if(vmap[i][0].test(r)){hw.vram=vmap[i][1];if(/Apple\s*M/i.test(r))hw.vram=Math.floor(hw.ram*.6);break;}}
+      }
+    }
+  }catch(e){}
+  hw.model=hw.ram>=16?'qwen2.5':hw.ram>=8?'qwen2.5':hw.ram>=4?'llama3.2':'llama3.2:1b';
+  var gs=hw.gpu.length>35?hw.gpu.substring(0,35)+'…':hw.gpu;
+  var vt=hw.vram>0?' · '+hw.vram+'GB VRAM':'';
+  var ot=hw.os==='mac'?'macOS':hw.os==='win'?'Windows':'Linux';
+  document.getElementById('detect-result').textContent='✓ '+hw.ram+'GB RAM · '+gs+vt+' · '+ot+' detectado';
+  updateCommands();renderModelsList();
+  btn.textContent='✓ Detectado';btn.style.background='#22c55e';btn.style.color='#fff';btn.disabled=false;
+  markDone('step1','num1');
+  document.getElementById('step2').classList.remove('locked');
+  document.getElementById('step3').classList.remove('locked');
+  window.__OLLAMA_MODEL__=hw.model;localStorage.setItem('ollama_model',hw.model);
+}
+
+function updateCommands(){
+  var ic={mac:'brew install ollama',win:'winget install Ollama.Ollama',linux:'curl -fsSL https://ollama.com/install.sh | sh'};
+  document.getElementById('cmd1').textContent=ic[hw.os];
+  document.getElementById('cmd2').textContent='ollama run '+hw.model;
+}
+
+function renderModelsList(){
+  var ul=document.getElementById('models-list');ul.innerHTML='';
+  MODELS.forEach(function(m){
+    var fits=m.minRam<=hw.ram;
+    var row=document.createElement('div');
+    row.className='model-row'+(fits?'':' disabled');
+    row.innerHTML='<div class="model-info"><div class="model-name">'+m.id+' <span style="color:#94a3b8">·</span> '+m.size+'GB</div><div class="model-meta">'+m.desc+(fits?'':' — necesita más RAM')+'</div></div>'+(fits?'<button class="btn-use-model" onclick="useModel(\''+m.id+'\')">Usar este</button>':'');
+    ul.appendChild(row);
+  });
+}
+
+function useModel(id){
+  hw.model=id;window.__OLLAMA_MODEL__=id;localStorage.setItem('ollama_model',id);
+  document.getElementById('cmd2').textContent='ollama run '+id;
+}
+
+function toggleModels(){
+  var list=document.getElementById('models-list');var btn=document.getElementById('models-toggle');
+  list.classList.toggle('open');
+  btn.textContent=list.classList.contains('open')?'▼ Ocultar modelos':'▶ Ver otros modelos compatibles';
+}
+
+function copyCmd(id,btn){
+  var text=document.getElementById(id).textContent.replace(/#[^\n]*/g,'').trim();
+  navigator.clipboard.writeText(text).then(function(){
+    var orig=btn.textContent;btn.textContent='✓ Copiado';btn.classList.add('copied');
+    setTimeout(function(){btn.textContent=orig;btn.classList.remove('copied');},2000);
+  });
+}
+
+function connectOllama(){
+  var btn=document.getElementById('btn-connect');
+  var res=document.getElementById('connect-result');
+  var hb=document.getElementById('https-block');
+  hb.classList.remove('show');res.className='';
+  if(location.protocol==='https:'&&location.hostname!=='localhost'){
+    document.getElementById('cmd-origins').textContent='OLLAMA_ORIGINS='+location.origin+' ollama serve';
+    hb.classList.add('show');res.className='err';res.textContent='Página cargada desde HTTPS — ve las instrucciones abajo.';return;
+  }
+  btn.textContent='⏳ Conectando…';btn.disabled=true;res.textContent='';
+  fetch(getOllamaHost()+'/api/tags',{signal:AbortSignal.timeout(6000)})
+    .then(function(r){return r.json();})
+    .then(function(data){
+      var models=data.models||[];
+      if(models.length===0){
+        res.className='err';res.textContent='Ollama activo pero sin modelos. Ejecuta: ollama run '+(hw.model||'qwen2.5');
+      } else {
+        var names=models.map(function(m){return m.name;});
+        var saved=hw.model||'qwen2.5';
+        var chosen=names.find(function(n){return n.startsWith(saved);})||names[0];
+        window.__OLLAMA_MODEL__=chosen;localStorage.setItem('ollama_model',chosen);localStorage.setItem('setup_done','1');
+        res.className='ok';res.textContent='✓ Conectado · Modelo: '+chosen+' · '+names.length+' modelo(s) disponibles';
+        markDone('step3','num3');
+        setTimeout(closeWizard,900);
+      }
+    })
+    .catch(function(){res.className='err';res.textContent='¿Está Ollama corriendo? Prueba: ollama serve';})
+    .finally(function(){btn.textContent='Reintentar';btn.disabled=false;});
+}
+
+function markDone(stepId,numId){
+  document.getElementById(stepId).classList.add('done');
+  document.getElementById(numId).textContent='✓';
+}
+
+function openWizard(){document.getElementById('wizard-overlay').classList.remove('hidden');document.body.style.overflow='hidden';}
+function closeWizard(){document.getElementById('wizard-overlay').classList.add('hidden');document.body.style.overflow='';setStatus('ok');}
+function skipWizard(){closeWizard();setTimeout(testOllamaConnection,400);}
+
+function setStatus(state,msg){
+  var dot=document.getElementById('status-dot');var txt=document.getElementById('status-text');
+  dot.className='status-dot '+(state||'');txt.className=state||'';
+  if(state==='ok'){
+    txt.textContent=msg||'🦙 Ollama conectado · '+(window.__OLLAMA_MODEL__||'modelo local');
+    document.querySelectorAll('.card').forEach(function(c){c.classList.add('ollama-ok');});
+  } else if(state==='err'){
+    txt.textContent=msg||'Ollama no detectado — modo online con OpenAI';
+    document.querySelectorAll('.card').forEach(function(c){c.classList.remove('ollama-ok');});
+  } else {
+    txt.textContent=msg||'Comprobando Ollama…';
+  }
+}
+
+function testOllamaConnection(){
+  if(location.protocol==='https:'&&location.hostname!=='localhost'){setStatus('err','Abre el fichero descargado en local para usar Ollama');return;}
+  fetch(getOllamaHost()+'/api/tags',{signal:AbortSignal.timeout(4000)})
+    .then(function(r){return r.json();})
+    .then(function(data){
+      var models=data.models||[];
+      if(models.length){
+        var saved=localStorage.getItem('ollama_model')||'qwen2.5';
+        var found=models.find(function(m){return m.name.startsWith(saved);});
+        window.__OLLAMA_MODEL__=found?found.name:models[0].name;
+        localStorage.setItem('ollama_model',window.__OLLAMA_MODEL__);
+        setStatus('ok');
+      } else {setStatus('err','Ollama activo pero sin modelos descargados');}
+    })
+    .catch(function(){setStatus('err','Ollama no detectado — modo online con OpenAI');});
+}
+
+function downloadLocalVersion(){
+  var html=document.documentElement.outerHTML;
+  var blob=new Blob([html],{type:'text/html;charset=utf-8'});
+  var a=document.createElement('a');
+  a.href=URL.createObjectURL(blob);
+  a.download='aplicaciones_ia_local.html';
+  document.body.appendChild(a);a.click();
+  document.body.removeChild(a);URL.revokeObjectURL(a.href);
+}
+
+document.addEventListener('DOMContentLoaded',function(){
+  window.__OLLAMA_MODEL__=localStorage.getItem('ollama_model')||'qwen2.5';
+  hw.model=window.__OLLAMA_MODEL__;
+  if(localStorage.getItem('setup_done')){
+    document.getElementById('wizard-overlay').classList.add('hidden');
+    document.body.style.overflow='';
+    setTimeout(testOllamaConnection,800);
+  } else {
+    setStatus('','Configura Ollama para usar en local');
+  }
+});
+</script>
+</body>
+</html>
