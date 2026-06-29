@@ -3,289 +3,764 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aplicaciones IA</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <title>IA Tools · fborrasumh</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        :root {
+            --bg: #f7f7f5;
+            --surface: #ffffff;
+            --border: #e8e7e3;
+            --text: #1a1916;
+            --muted: #7a7872;
+            --accent: #2d5be3;
+            --accent-light: #eef1fd;
+
+            /* category colors */
+            --cat-docencia: #2d5be3;
+            --cat-evaluacion: #d4460f;
+            --cat-investigacion: #1a7a5e;
+            --cat-utilidades: #7b3fc4;
+        }
+
         body {
             font-family: 'Inter', system-ui, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
         }
-        .hero-bg {
-            background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
+
+        /* ── HEADER ── */
+        header {
+            background: var(--text);
+            color: #fff;
+            padding: 52px 32px 48px;
+            text-align: center;
         }
+
+        .header-eyebrow {
+            font-family: 'Sora', sans-serif;
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: #888;
+            margin-bottom: 18px;
+        }
+
+        .header-title {
+            font-family: 'Sora', sans-serif;
+            font-size: clamp(2.4rem, 5vw, 3.6rem);
+            font-weight: 800;
+            line-height: 1.08;
+            letter-spacing: -0.03em;
+            margin-bottom: 16px;
+        }
+
+        .header-title span {
+            color: #6b8fff;
+        }
+
+        .header-sub {
+            font-size: 1.05rem;
+            color: #aaa;
+            max-width: 520px;
+            margin: 0 auto 32px;
+            line-height: 1.6;
+        }
+
+        .header-stats {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            flex-wrap: wrap;
+        }
+
+        .stat {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-family: 'Sora', sans-serif;
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: #fff;
+        }
+
+        .stat-label {
+            font-size: 0.78rem;
+            color: #666;
+            margin-top: 2px;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+        }
+
+        /* ── NAV TABS ── */
+        .nav-wrap {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: var(--surface);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .nav-inner {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 24px;
+            display: flex;
+            gap: 0;
+            overflow-x: auto;
+            scrollbar-width: none;
+        }
+
+        .nav-inner::-webkit-scrollbar { display: none; }
+
+        .nav-tab {
+            flex-shrink: 0;
+            padding: 16px 20px;
+            font-size: 0.88rem;
+            font-weight: 500;
+            color: var(--muted);
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+            transition: color 0.2s, border-color 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            background: none;
+            border-top: none;
+            border-left: none;
+            border-right: none;
+            white-space: nowrap;
+        }
+
+        .nav-tab:hover { color: var(--text); }
+
+        .nav-tab.active {
+            color: var(--text);
+            font-weight: 600;
+        }
+
+        .nav-tab[data-cat="all"].active       { border-color: var(--text); }
+        .nav-tab[data-cat="docencia"].active   { border-color: var(--cat-docencia); color: var(--cat-docencia); }
+        .nav-tab[data-cat="evaluacion"].active { border-color: var(--cat-evaluacion); color: var(--cat-evaluacion); }
+        .nav-tab[data-cat="investigacion"].active { border-color: var(--cat-investigacion); color: var(--cat-investigacion); }
+        .nav-tab[data-cat="utilidades"].active { border-color: var(--cat-utilidades); color: var(--cat-utilidades); }
+
+        .tab-count {
+            font-size: 0.72rem;
+            font-weight: 700;
+            padding: 1px 6px;
+            border-radius: 99px;
+            background: var(--bg);
+            color: var(--muted);
+        }
+
+        /* ── SEARCH ── */
+        .search-wrap {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 28px 24px 8px;
+        }
+
+        .search-box {
+            position: relative;
+            max-width: 440px;
+        }
+
+        .search-box i {
+            position: absolute;
+            left: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--muted);
+            font-size: 0.9rem;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 10px 14px 10px 38px;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            font-size: 0.9rem;
+            font-family: inherit;
+            background: var(--surface);
+            color: var(--text);
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .search-box input:focus {
+            border-color: var(--accent);
+        }
+
+        .search-box input::placeholder { color: var(--muted); }
+
+        /* ── GRID ── */
+        .grid-wrap {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 20px 24px 60px;
+        }
+
+        .section-label {
+            font-family: 'Sora', sans-serif;
+            font-size: 0.72rem;
+            font-weight: 700;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: var(--muted);
+            margin: 32px 0 16px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .apps-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 16px;
+        }
+
+        /* ── CARD ── */
         .card {
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 22px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            text-decoration: none;
+            color: inherit;
+            transition: transform 0.18s, box-shadow 0.18s, border-color 0.18s;
+            position: relative;
+            overflow: hidden;
         }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 3px;
+            border-radius: 16px 16px 0 0;
+        }
+
+        .card[data-cat="docencia"]::before      { background: var(--cat-docencia); }
+        .card[data-cat="evaluacion"]::before    { background: var(--cat-evaluacion); }
+        .card[data-cat="investigacion"]::before { background: var(--cat-investigacion); }
+        .card[data-cat="utilidades"]::before    { background: var(--cat-utilidades); }
+
         .card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.09);
+            border-color: #d0cfc9;
+        }
+
+        .card-head {
+            display: flex;
+            align-items: flex-start;
+            gap: 14px;
+        }
+
+        .card-icon {
+            width: 42px;
+            height: 42px;
+            border-radius: 11px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+            color: #fff;
+            flex-shrink: 0;
+        }
+
+        .card[data-cat="docencia"] .card-icon      { background: var(--cat-docencia); }
+        .card[data-cat="evaluacion"] .card-icon    { background: var(--cat-evaluacion); }
+        .card[data-cat="investigacion"] .card-icon { background: var(--cat-investigacion); }
+        .card[data-cat="utilidades"] .card-icon    { background: var(--cat-utilidades); }
+
+        .card-titles { flex: 1; min-width: 0; }
+
+        .card-title {
+            font-family: 'Sora', sans-serif;
+            font-size: 1rem;
+            font-weight: 700;
+            letter-spacing: -0.01em;
+            line-height: 1.2;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .card-subtitle {
+            font-size: 0.78rem;
+            color: var(--muted);
+            margin-top: 2px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .card-desc {
+            font-size: 0.87rem;
+            color: #555;
+            line-height: 1.55;
+            flex: 1;
+        }
+
+        .card-cta {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: 4px;
+        }
+
+        .card-badge {
+            font-size: 0.7rem;
+            font-weight: 600;
+            padding: 3px 9px;
+            border-radius: 99px;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+        }
+
+        .card[data-cat="docencia"] .card-badge      { background: #eef1fd; color: var(--cat-docencia); }
+        .card[data-cat="evaluacion"] .card-badge    { background: #fdf0ec; color: var(--cat-evaluacion); }
+        .card[data-cat="investigacion"] .card-badge { background: #eaf6f1; color: var(--cat-investigacion); }
+        .card[data-cat="utilidades"] .card-badge    { background: #f3eefb; color: var(--cat-utilidades); }
+
+        .card-arrow {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            background: var(--bg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            color: var(--muted);
+            transition: background 0.2s, color 0.2s;
+        }
+
+        .card:hover .card-arrow {
+            background: var(--text);
+            color: #fff;
+        }
+
+        /* ── EMPTY STATE ── */
+        .empty-state {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 60px 0;
+            color: var(--muted);
+        }
+
+        .empty-state i {
+            font-size: 2rem;
+            margin-bottom: 12px;
+            display: block;
+        }
+
+        /* ── FOOTER ── */
+        footer {
+            background: var(--surface);
+            border-top: 1px solid var(--border);
+            padding: 32px;
+            text-align: center;
+            font-size: 0.84rem;
+            color: var(--muted);
+        }
+
+        footer a {
+            color: var(--accent);
+            text-decoration: none;
+        }
+
+        footer a:hover { text-decoration: underline; }
+
+        /* ── RESPONSIVE ── */
+        @media (max-width: 600px) {
+            .apps-grid { grid-template-columns: 1fr; }
+            .header-stats { gap: 24px; }
         }
     </style>
 </head>
-<body class="bg-gray-50">
-    <!-- Header -->
-    <header class="hero-bg text-white">
-        <div class="max-w-7xl mx-auto px-6 py-16">
-            <div class="flex flex-col items-center text-center">
-                <div class="flex items-center gap-3 mb-6">
-                    <i class="fa-solid fa-brain text-5xl"></i>
-                    <h1 class="text-5xl font-bold">Aplicaciones IA</h1>
-                </div>
-                <p class="text-xl max-w-2xl text-indigo-100">
-                    Herramientas inteligentes impulsadas por IA para educación, investigación y creación de contenido académico
-                </p>
-                <div class="mt-8 flex gap-4">
-                    <a href="#apps" 
-                       class="px-8 py-4 bg-white text-indigo-700 font-semibold rounded-2xl hover:bg-gray-100 transition flex items-center gap-2">
-                        <i class="fa-solid fa-rocket"></i>
-                        Explorar herramientas
-                    </a>
-                </div>
+<body>
+
+<header>
+    <p class="header-eyebrow">fborrasumh · UMH · Alicante</p>
+    <h1 class="header-title">Herramientas <span>IA</span><br>para la academia</h1>
+    <p class="header-sub">Aplicaciones de inteligencia artificial para docencia, evaluación, investigación y creación de contenido. Funcionan en el navegador. Tu API Key nunca se comparte.</p>
+    <div class="header-stats">
+        <div class="stat">
+            <div class="stat-number" id="stat-total">—</div>
+            <div class="stat-label">Herramientas</div>
+        </div>
+        <div class="stat">
+            <div class="stat-number">4</div>
+            <div class="stat-label">Categorías</div>
+        </div>
+        <div class="stat">
+            <div class="stat-number">100%</div>
+            <div class="stat-label">En el navegador</div>
+        </div>
+    </div>
+</header>
+
+<nav class="nav-wrap">
+    <div class="nav-inner">
+        <button class="nav-tab active" data-cat="all">
+            <i class="fa-solid fa-th-large"></i> Todas
+            <span class="tab-count" id="count-all"></span>
+        </button>
+        <button class="nav-tab" data-cat="docencia">
+            <i class="fa-solid fa-chalkboard"></i> Docencia
+            <span class="tab-count" id="count-docencia"></span>
+        </button>
+        <button class="nav-tab" data-cat="evaluacion">
+            <i class="fa-solid fa-check-circle"></i> Evaluación
+            <span class="tab-count" id="count-evaluacion"></span>
+        </button>
+        <button class="nav-tab" data-cat="investigacion">
+            <i class="fa-solid fa-microscope"></i> Investigación
+            <span class="tab-count" id="count-investigacion"></span>
+        </button>
+        <button class="nav-tab" data-cat="utilidades">
+            <i class="fa-solid fa-tools"></i> Utilidades
+            <span class="tab-count" id="count-utilidades"></span>
+        </button>
+    </div>
+</nav>
+
+<div class="search-wrap">
+    <div class="search-box">
+        <i class="fa-solid fa-search"></i>
+        <input type="text" id="search-input" placeholder="Buscar herramienta…" autocomplete="off">
+    </div>
+</div>
+
+<div class="grid-wrap">
+    <div class="apps-grid" id="apps-grid"></div>
+</div>
+
+<footer>
+    <p>Desarrollado por <a href="https://github.com/fborrasumh" target="_blank">@fborrasumh</a> · Universidad Miguel Hernández de Elche</p>
+    <p style="margin-top:6px;">Tu API Key de OpenAI se guarda en tu navegador y nunca se envía a terceros.</p>
+</footer>
+
+<script>
+const apps = [
+    // ── DOCENCIA ──
+    {
+        cat: "docencia",
+        title: "Genia",
+        subtitle: "Programaciones Didácticas",
+        url: "https://fborrasumh.github.io/genia/",
+        icon: "fa-chalkboard-teacher",
+        description: "Generador completo de programaciones didácticas para ESO y Bachillerato según la LOMLOE y la normativa de la Comunitat Valenciana."
+    },
+    {
+        cat: "docencia",
+        title: "SyllabusAI",
+        subtitle: "Guías Docentes Universitarias",
+        url: "https://fborrasumh.github.io/sillabusAI/",
+        icon: "fa-landmark",
+        description: "Genera guías docentes universitarias: competencias, resultados de aprendizaje, contenidos, metodología y criterios de evaluación."
+    },
+    {
+        cat: "docencia",
+        title: "Pericia",
+        subtitle: "Generador de Cursos",
+        url: "https://fborrasumh.github.io/pericia/",
+        icon: "fa-graduation-cap",
+        description: "Crea cursos completos con IA: índice, contenido, evaluaciones y proyectos listos para usar."
+    },
+    {
+        cat: "docencia",
+        title: "Generator",
+        subtitle: "Generador de Asignaturas",
+        url: "https://fborrasumh.github.io/generator/",
+        icon: "fa-book",
+        description: "Sube tus materiales y genera asignaturas completas con teoría, tests, mapas conceptuales y bibliografía."
+    },
+    {
+        cat: "docencia",
+        title: "CasoPrácticoAI",
+        subtitle: "Generador de Casos Prácticos",
+        url: "https://fborrasumh.github.io/casopracticoAI/",
+        icon: "fa-briefcase",
+        description: "Crea casos narrativos, problemas cuantitativos, casos Harvard, role-plays, proyectos cortos y debates listos para usar."
+    },
+    {
+        cat: "docencia",
+        title: "Anamnesis AI",
+        subtitle: "Entrenamiento Clínico",
+        url: "https://fborrasumh.github.io/anamnesis_ai/",
+        icon: "fa-stethoscope",
+        description: "Simulación de paciente para entrenar el proceso de anamnesis médico con inteligencia artificial y soporte multilingüe."
+    },
+
+    // ── EVALUACIÓN ──
+    {
+        cat: "evaluacion",
+        title: "TFG Evaluator",
+        subtitle: "Evaluador de TFGs",
+        url: "https://fborrasumh.github.io/TFG_evaluator/",
+        icon: "fa-clipboard-check",
+        description: "Evalúa Trabajos de Fin de Grado mediante rúbricas, con pipeline multiagente, calibración few-shot y detección de similitud."
+    },
+    {
+        cat: "evaluacion",
+        title: "Evaluador Oral",
+        subtitle: "Asistente de Evaluación Oral",
+        url: "https://fborrasumh.github.io/evaluador_oral/",
+        icon: "fa-comments",
+        description: "Asistente para evaluar exposiciones orales de manera estructurada y consistente."
+    },
+    {
+        cat: "evaluacion",
+        title: "ExamForge",
+        subtitle: "Generador de Exámenes",
+        url: "https://fborrasumh.github.io/examforge/",
+        icon: "fa-pen-ruler",
+        description: "Genera exámenes personalizados y adaptados a los contenidos de la asignatura, con exportación a PDF."
+    },
+
+    // ── INVESTIGACIÓN ──
+    {
+        cat: "investigacion",
+        title: "Doctoralia",
+        subtitle: "Revisiones Científicas STEM",
+        url: "https://fborrasumh.github.io/doctoralia/",
+        icon: "fa-microscope",
+        description: "Genera artículos de revisión (State-of-the-Art) con fuentes académicas reales: PubMed, Semantic Scholar, arXiv. 20 agentes en 5 fases."
+    },
+    {
+        cat: "investigacion",
+        title: "Humanitas",
+        subtitle: "Revisiones en Humanidades",
+        url: "https://fborrasumh.github.io/humanitas/",
+        icon: "fa-theater-masks",
+        description: "Revisiones académicas en Ciencias Sociales, Humanidades y Derecho con fuentes especializadas."
+    },
+    {
+        cat: "investigacion",
+        title: "Manuscriptor",
+        subtitle: "Generador de Artículos",
+        url: "https://fborrasumh.github.io/manuscriptor/",
+        icon: "fa-file-pen",
+        description: "Convierte tus datos y manuscritos en artículos científicos completos con estructura IMRaD y citas reales. Exporta a .docx."
+    },
+    {
+        cat: "investigacion",
+        title: "Autoreviewer",
+        subtitle: "Evaluador de Artículos",
+        url: "https://fborrasumh.github.io/autoreviewer/",
+        icon: "fa-magnifying-glass",
+        description: "Revisión por pares automatizada: genera un informe detallado con fortalezas, debilidades y recomendaciones."
+    },
+    {
+        cat: "investigacion",
+        title: "Autoresearch",
+        subtitle: "Mejorador Iterativo de Documentos",
+        url: "https://fborrasumh.github.io/autoresearch/",
+        icon: "fa-rotate",
+        description: "Mejora documentos científicos de forma iterativa mediante rúbrica hasta alcanzar un umbral de calidad definido."
+    },
+    {
+        cat: "investigacion",
+        title: "Auto Research Bot",
+        subtitle: "Bot Asistente de Investigación",
+        url: "https://fborrasumh.github.io/autoresearchbot/",
+        icon: "fa-robot",
+        description: "Bot conversacional de apoyo al proceso investigador."
+    },
+    {
+        cat: "investigacion",
+        title: "Contestador RAG",
+        subtitle: "Preguntas sobre tus Documentos",
+        url: "https://fborrasumh.github.io/contestador_rag/",
+        icon: "fa-database",
+        description: "Sube tus documentos y hazles preguntas en lenguaje natural con Recuperación Aumentada por Generación (RAG)."
+    },
+
+    // ── UTILIDADES ──
+    {
+        cat: "utilidades",
+        title: "Tormenta de Ideas",
+        subtitle: "Ideación Multiagente",
+        url: "https://fborrasumh.github.io/tormenta_ideas/",
+        icon: "fa-lightbulb",
+        description: "Generador de ideas innovadoras con sistema multiagente IA, soporte trilingüe y exportación a Word."
+    },
+    {
+        cat: "utilidades",
+        title: "Generador de Presentaciones",
+        subtitle: "Presentaciones HTML",
+        url: "https://fborrasumh.github.io/generadorhtml/",
+        icon: "fa-display",
+        description: "Crea presentaciones web completas a partir de un tema o texto, con varios temas visuales."
+    },
+    {
+        cat: "utilidades",
+        title: "Swarm Loop",
+        subtitle: "Mejora Continua Autónoma",
+        url: "https://fborrasumh.github.io/swarmloop/",
+        icon: "fa-arrows-spin",
+        description: "Enjambre de agentes autoaprendiz para la mejora iterativa autónoma de contenidos."
+    },
+    {
+        cat: "utilidades",
+        title: "Invigilando",
+        subtitle: "Vigilancia Competitiva",
+        url: "https://fborrasumh.github.io/invigilandov2/",
+        icon: "fa-binoculars",
+        description: "Generación con IA de informes de vigilancia competitiva empresarial. Ideal para grupos con transferencia o proyectos empresa."
+    },
+    {
+        cat: "utilidades",
+        title: "Traductor Word",
+        subtitle: "Traducción de Documentos .docx",
+        url: "https://fborrasumh.github.io/traductor_word/",
+        icon: "fa-language",
+        description: "Automatiza la traducción de carpetas de documentos .docx al inglés preservando el formato original."
+    },
+    {
+        cat: "utilidades",
+        title: "Conversor Markdown",
+        subtitle: "Optimización de Tokens",
+        url: "https://fborrasumh.github.io/conversor/",
+        icon: "fa-file-code",
+        description: "Convierte documentos a formato Markdown para reducir el uso de tokens al trabajar con modelos de IA."
+    }
+];
+
+const catLabels = {
+    docencia: "Docencia",
+    evaluacion: "Evaluación",
+    investigacion: "Investigación",
+    utilidades: "Utilidades y Creación de Contenido"
+};
+
+const catOrder = ["docencia", "evaluacion", "investigacion", "utilidades"];
+
+let activeTab = "all";
+let searchQuery = "";
+
+function countsByCategory() {
+    const counts = { all: apps.length };
+    catOrder.forEach(cat => {
+        counts[cat] = apps.filter(a => a.cat === cat).length;
+    });
+    return counts;
+}
+
+function renderCounts() {
+    const counts = countsByCategory();
+    document.getElementById("count-all").textContent = counts.all;
+    document.getElementById("count-docencia").textContent = counts.docencia;
+    document.getElementById("count-evaluacion").textContent = counts.evaluacion;
+    document.getElementById("count-investigacion").textContent = counts.investigacion;
+    document.getElementById("count-utilidades").textContent = counts.utilidades;
+    document.getElementById("stat-total").textContent = counts.all;
+}
+
+function filteredApps() {
+    return apps.filter(app => {
+        const matchCat = activeTab === "all" || app.cat === activeTab;
+        const q = searchQuery.toLowerCase();
+        const matchSearch = !q ||
+            app.title.toLowerCase().includes(q) ||
+            app.subtitle.toLowerCase().includes(q) ||
+            app.description.toLowerCase().includes(q);
+        return matchCat && matchSearch;
+    });
+}
+
+function renderApps() {
+    const container = document.getElementById("apps-grid");
+    const filtered = filteredApps();
+    container.innerHTML = "";
+
+    if (filtered.length === 0) {
+        container.innerHTML = `<div class="empty-state"><i class="fa-solid fa-search"></i><p>No se encontraron herramientas para <strong>${searchQuery}</strong></p></div>`;
+        return;
+    }
+
+    // Group by category if showing all, else flat
+    if (activeTab === "all" && !searchQuery) {
+        catOrder.forEach(cat => {
+            const catApps = filtered.filter(a => a.cat === cat);
+            if (!catApps.length) return;
+
+            const label = document.createElement("div");
+            label.className = "section-label";
+            label.innerHTML = `<i class="fa-solid ${getCatIcon(cat)}" style="margin-right:6px;"></i>${catLabels[cat]}`;
+            container.appendChild(label);
+
+            catApps.forEach(app => container.appendChild(makeCard(app)));
+        });
+    } else {
+        filtered.forEach(app => container.appendChild(makeCard(app)));
+    }
+}
+
+function getCatIcon(cat) {
+    return { docencia: "fa-chalkboard", evaluacion: "fa-check-circle", investigacion: "fa-microscope", utilidades: "fa-tools" }[cat];
+}
+
+function makeCard(app) {
+    const a = document.createElement("a");
+    a.href = app.url;
+    a.target = "_blank";
+    a.rel = "noopener";
+    a.className = "card";
+    a.dataset.cat = app.cat;
+    a.innerHTML = `
+        <div class="card-head">
+            <div class="card-icon"><i class="fa-solid ${app.icon}"></i></div>
+            <div class="card-titles">
+                <div class="card-title">${app.title}</div>
+                <div class="card-subtitle">${app.subtitle}</div>
             </div>
         </div>
-    </header>
-
-    <main class="max-w-7xl mx-auto px-6 py-12">
-        <!-- Sección de Apps -->
-        <section id="apps">
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" id="apps-grid">
-                <!-- Las tarjetas se generan con JS -->
-            </div>
-        </section>
-    </main>
-
-    <footer class="bg-white border-t mt-20">
-        <div class="max-w-7xl mx-auto px-6 py-12 text-center text-gray-500">
-            <p>Desarrollado por <a href="https://github.com/fborrasumh" target="_blank" class="hover:text-indigo-600">@fborrasumh</a></p>
-            <p class="text-sm mt-2">Todas las aplicaciones funcionan 100% en tu navegador • Tu API Key de OpenAI nunca se comparte</p>
+        <p class="card-desc">${app.description}</p>
+        <div class="card-cta">
+            <span class="card-badge">${catLabels[app.cat]}</span>
+            <span class="card-arrow"><i class="fa-solid fa-arrow-right"></i></span>
         </div>
-    </footer>
+    `;
+    return a;
+}
 
-    <script>
-        const apps = [
-            {
-                title: "Genia",
-                subtitle: "Programaciones Didácticas",
-                url: "https://fborrasumh.github.io/genia/",
-                icon: "fa-chalkboard-teacher",
-                color: "bg-blue-500",
-                description: "Generador completo de programaciones didácticas para ESO y Bachillerato según LOMLOE y normativa de la Comunidad Valenciana."
-            },
-            {
-                title: "Conversor Markdown",
-                subtitle: "Conversor Markitdown para utilizar menos tokens",
-                url: "https://fborrasumh.github.io/conversor/",
-                icon: "fa-chalkboard-teacher",
-                color: "bg-blue-500",
-                description: "Conversor de documentos a Markdown"
-            },
-          
-            {
-                title: "SillabusAI",
-                subtitle: "Guías docentes universitarias",
-                url: "https://fborrasumh.github.io/sillabusAI/",
-                icon: "fa-landmark",
-                color: "bg-blue-500",
-                description: "Generador completo de guias docentes."
-            },
-            {
-                title: "Pericia",
-                subtitle: "Generador de Cursos",
-                url: "https://fborrasumh.github.io/pericia/",
-                icon: "fa-graduation-cap",
-                color: "bg-purple-500",
-                description: "Crea cursos completos con IA: índice, contenido, evaluaciones y proyectos listos para usar."
-            },
-            {
-                title: "Generator",
-                subtitle: "Generador de Asignaturas",
-                url: "https://fborrasumh.github.io/generator/",
-                icon: "fa-book",
-                color: "bg-emerald-500",
-                description: "Sube tus materiales y genera asignaturas completas con teoría, tests, mapas conceptuales y bibliografía."
-            },
-              {
-                title: "CasoPracticoAI",
-                subtitle: "Generador de casos prácticos",
-                url: "https://fborrasumh.github.io/casopracticoAI/",
-                icon: "fa-graduation-cap",
-                color: "bg-purple-500",
-                description: "Crea Caso narrativo, Problema cuantitativo, Supuesto práctico, Caso Harvard, Role-Play, Proyecto corto, Análisis crítico, Debate/Seminario listos para usar."
-            },
-            {
-                title: "TFG_evaluator",
-                subtitle: "Evaluador de TFGs mediante rúbricas",
-                url: "https://fborrasumh.github.io/TFG_evaluator/",
-                icon: "fa-book",
-                color: "bg-red-500",
-                description: "Evaluador de TFG con rúbricas."
-            },
+// ── TABS ──
+document.querySelectorAll(".nav-tab").forEach(tab => {
+    tab.addEventListener("click", () => {
+        document.querySelectorAll(".nav-tab").forEach(t => t.classList.remove("active"));
+        tab.classList.add("active");
+        activeTab = tab.dataset.cat;
+        renderApps();
+    });
+});
 
-            {
-                title: "Evaluador Oral",
-                subtitle: "Asistente para la Evaluación oral",
-                url: "https://fborrasumh.github.io/evaluador_oral/",
-                icon: "fa-pen-nib",
-                color: "bg-red-500",
-                description: "Asistente para la Evaluación oral."
-            },
-            {
-                title: "Generador examenes personalizados",
-                subtitle: "Asistente para la Evaluación",
-                url: "https://fborrasumh.github.io/examforge/",
-                icon: "fa-microscope",
-                color: "bg-red-500",
-                description: "Asistente para la Evaluación."
-            },
+// ── SEARCH ──
+document.getElementById("search-input").addEventListener("input", e => {
+    searchQuery = e.target.value.trim();
+    // When searching, show all cats
+    if (searchQuery) {
+        activeTab = "all";
+        document.querySelectorAll(".nav-tab").forEach(t => t.classList.remove("active"));
+        document.querySelector('[data-cat="all"]').classList.add("active");
+    }
+    renderApps();
+});
 
-            {
-                title: "Generador presentaciones HTML",
-                subtitle: "Asistente para la generación de presentaciones HTML",
-                url: "https://fborrasumh.github.io/generadorhtml/",
-                icon: "fa-pen-nib",
-                color: "bg-red-500",
-                description: "Asistente para la generación de presentaciones HTML"
-            },
-
-            {
-                title: "Doctoralia",
-                subtitle: "Revisiones Científicas",
-                url: "https://fborrasumh.github.io/doctoralia/",
-                icon: "fa-microscope",
-                color: "bg-red-500",
-                description: "Genera artículos de revisión (State-of-the-Art) en ciencias de la salud y STEM con fuentes académicas."
-            },
-            {
-                title: "Humanitas",
-                subtitle: "Revisiones Humanidades",
-                url: "https://fborrasumh.github.io/humanitas/",
-                icon: "fa-landmark",
-                color: "bg-amber-500",
-                description: "Revisiones académicas en Ciencias Sociales, Humanidades y Derecho con fuentes especializadas."
-            },
-            {
-                title: "Manuscriptor",
-                subtitle: "Generador de Artículos",
-                url: "https://fborrasumh.github.io/manuscriptor/",
-                icon: "fa-pen-nib",
-                color: "bg-rose-500",
-                description: "Convierte tus datos y manuscritos en artículos científicos completos con citas reales."
-            },
-            {
-                title: "Autoresearch",
-                subtitle: "Mejorador iterativo de documentos",
-                url: "https://fborrasumh.github.io/autoresearch/",
-                icon: "fa-pen-nib",
-                color: "bg-red-500",
-                description: "Mejora tus documentos científicos con rúbrica e iterativamente."
-            },
-            {
-                title: "Auto Research Bot",
-                subtitle: "Bot Asistente de investigacion",
-                url: "https://fborrasumh.github.io/autoresearchbot/",
-                icon: "fa-pen-nib",
-                color: "bg-red-500",
-                description: "Bot asistente de investigación."
-            },
-
-            {
-                title: "Swarm Loop",
-                subtitle: "Bucle de Mejora Continua",
-                url: "https://fborrasumh.github.io/swarmloop/",
-                icon: "fa-pen-nib",
-                color: "bg-red-500",
-                description: "Enjambre autoaprendiz."
-            },
-            
-            {
-                title: "Autoreviewer",
-                subtitle: "Evaluador de artículos de investigación",
-                url: "https://fborrasumh.github.io/autoreviewer/",
-                icon: "fa-pen-nib",
-                color: "bg-red-500",
-                description: "Evaluador de Artículos de Investigacón."
-            },
-            {
-                title: "Contestador Preguntas investigación con RAG",
-                subtitle: "Añade contexto a tus preguntas de investigación",
-                url: "https://fborrasumh.github.io/contestador_rag/",
-                icon: "fa-pen-nib",
-                color: "bg-red-500",
-                description: "Contestador Preguntas investigación con RAG."
-            },
-            {
-                title: "Traductor ficheros word",
-                subtitle: "Automatiza la traducción de una carpeta de documentos al inglés",
-                url: "https://fborrasumh.github.io/traductor_word/",
-                icon: "fa-pen-nib",
-                color: "bg-red-500",
-                description: "Traductor ficheros word."
-            },
-            {
-                title: "Tormenta de ideas",
-                subtitle: "Genera ideas innovadoras con un sistema multiagente IA",
-                url: "https://fborrasumh.github.io/tormenta_ideas/",
-                icon: "fa-pen-nib",
-                color: "bg-red-500",
-                description: "Generador de ideas innovadoras."
-            },
-            {
-                title: "Anamnesis AI",
-                subtitle: "Entrena el proceso de anamnesis con inteligencia artificial",
-                url: "https://fborrasumh.github.io/anamnesis_ai/",
-                icon: "fa-pen-nib",
-                color: "bg-red-500",
-                description: "Simulación del paciente para entrenar el proceso de anamnesis médico."
-            } 
-            ,
-            {
-                title: "Invigilando",
-                subtitle: "Informes de vigilancia competitiva empresarial",
-                url: "https://fborrasumh.github.io/invigilandov2/",
-                icon: "fa-pen-nib",
-                color: "bg-red-500",
-                description: "Generación con IA de informes de vigilancia competetiva empresarial."
-            } 
-            
-        ];
-
-        function renderApps() {
-            const container = document.getElementById('apps-grid');
-            container.innerHTML = '';
-
-            apps.forEach(app => {
-                const cardHTML = `
-                    <div class="card bg-white rounded-3xl overflow-hidden border border-gray-100 h-full flex flex-col">
-                        <div class="${app.color} h-2"></div>
-                        <div class="p-8 flex flex-col flex-1">
-                            <div class="flex items-center gap-4 mb-6">
-                                <div class="w-14 h-14 ${app.color} text-white rounded-2xl flex items-center justify-center text-3xl shadow-inner">
-                                    <i class="fa-solid ${app.icon}"></i>
-                                </div>
-                                <div>
-                                    <h3 class="text-2xl font-semibold text-gray-900">${app.title}</h3>
-                                    <p class="text-gray-500">${app.subtitle}</p>
-                                </div>
-                            </div>
-                            
-                            <p class="text-gray-600 mb-8 flex-1">${app.description}</p>
-                            
-                            <a href="${app.url}" 
-                               target="_blank"
-                               class="mt-auto inline-flex items-center justify-center gap-2 bg-gray-900 hover:bg-black text-white font-medium py-4 px-8 rounded-2xl transition">
-                                <span>Abrir aplicación</span>
-                                <i class="fa-solid fa-arrow-right"></i>
-                            </a>
-                        </div>
-                    </div>
-                `;
-                container.innerHTML += cardHTML;
-            });
-        }
-
-        // Inicializar
-        window.onload = renderApps;
-    </script>
+renderCounts();
+renderApps();
+</script>
 </body>
 </html>
