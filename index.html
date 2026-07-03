@@ -22,7 +22,7 @@
   --doc: #1a4fd8;
   --eva: #b83a0c;
   --inv: #126649;
-  --sim:#0f7c6e;
+  --sim: #0f7c6e;
   --uti: #6429a8;
 }
 
@@ -117,7 +117,7 @@ main {
 .pill.active.doc { background: var(--doc); border-color: var(--doc); color: #fff; }
 .pill.active.eva { background: var(--eva); border-color: var(--eva); color: #fff; }
 .pill.active.inv { background: var(--inv); border-color: var(--inv); color: #fff; }
-.pill.active.inv { background: var(--sim); border-color: var(--sim); color: #fff; }  
+.pill.active.sim { background: var(--sim); border-color: var(--sim); color: #fff; }  
 .pill.active.uti { background: var(--uti); border-color: var(--uti); color: #fff; }
 
 .search-wrap {
@@ -196,7 +196,7 @@ td {
 .icon-box.doc { background: var(--doc); }
 .icon-box.eva { background: var(--eva); }
 .icon-box.inv { background: var(--inv); }
-.icon-box.inv { background: var(--sim); }
+.icon-box.sim { background: var(--sim); }
 .icon-box.uti { background: var(--uti); }
 
 .title-cell { font-weight: 500; }
@@ -351,8 +351,6 @@ const apps = [
   { cat:"doc", icon:"ti-award",              title:"Pericia",          sub:"Generador de Cursos",          desc:"Crea cursos completos con IA: índice, contenido, evaluaciones y proyectos listos para usar.", url:"https://fborrasumh.github.io/pericia/" },
   { cat:"doc", icon:"ti-book",               title:"Generator",        sub:"Generador de Asignaturas",     desc:"Sube materiales y genera asignaturas completas con teoría, tests, mapas conceptuales y bibliografía.", url:"https://fborrasumh.github.io/generator/" },
   { cat:"doc", icon:"ti-briefcase",          title:"CasoPrácticoAI",  sub:"Generador de Casos Prácticos", desc:"Crea casos narrativos, Harvard, role-plays, proyectos cortos, análisis críticos y debates.", url:"https://fborrasumh.github.io/casopracticoAI/" },
- 
-  // ── DOCENCIA ── (AdaptaAI)
   { cat:"doc", icon:"ti-adjustments",        title:"AdaptaAI",         sub:"Adaptaciones Curriculares",    desc:"Genera adaptaciones curriculares individualizadas para alumnado con necesidades específicas de apoyo educativo (NEAE).", url:"https://fborrasumh.github.io/adapta-ai/" },
 
   // ── EVALUACIÓN ────────────────────────────────────
@@ -370,7 +368,8 @@ const apps = [
   { cat:"inv", icon:"ti-database",           title:"Contestador RAG",  sub:"Preguntas sobre Documentos",   desc:"Sube documentos y hazles preguntas en lenguaje natural con Recuperación Aumentada por Generación.", url:"https://fborrasumh.github.io/contestador_rag/" },
   { cat:"inv", icon:"ti-message-reply",     title:"PeerResponse AI",  sub:"Respuesta a Revisores",        desc:"Genera respuestas argumentadas y profesionales a los comentarios de revisores en el proceso de publicación científica.", url:"https://fborrasumh.github.io/peerresponse_ai/" },
   { cat:"inv", icon:"ti-cash",               title:"GrantWriter",      sub:"Redacción de Proyectos",       desc:"Asistente para redactar memorias y justificaciones de proyectos de investigación y convocatorias de financiación.", url:"https://fborrasumh.github.io/grantwriter/" },
- // ── SIMULACION ─────────────────────────────────
+ 
+// ── SIMULACION ─────────────────────────────────
  { cat:"sim", icon:"ti-stethoscope",        title:"Anamnesis AI",     sub:"Entrenamiento Clínico",        desc:"Simulación de paciente para entrenar el proceso de anamnesis médico con IA y soporte multilingüe.", url:"https://fborrasumh.github.io/anamnesis_ai/" },
 
 
