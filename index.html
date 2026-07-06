@@ -371,18 +371,37 @@ const apps = [
  
 // ── SIMULACION ─────────────────────────────────
 
-{ cat:"sim", icon:"ti-user-heart",         title:"Paciente Virtual AI",  sub:"Entrenamiento Clínico",        desc:"Simulador de paciente virtual completo con historia clínica, síntomas y respuestas realistas.", url:"https://fborrasumh.github.io/pacientevirtual_ai/" },
-  { cat:"sim", icon:"ti-stethoscope",        title:"Anamnesis AI",         sub:"Entrenamiento Clínico",        desc:"Simulación de paciente para entrenar el proceso de anamnesis médico con IA y soporte multilingüe.", url:"https://fborrasumh.github.io/anamnesis_ai/" },
-  { cat:"sim", icon:"ti-clipboard-text",     title:"Casos Clínicos AI",    sub:"Entrenamiento por Casos",      desc:"Biblioteca inteligente de casos clínicos interactivos con diferentes niveles de dificultad y feedback.", url:"https://fborrasumh.github.io/casos_ai/" },
-  { cat:"sim", icon:"ti-stethoscope",        title:"ECOE AI",              sub:"Evaluación Competencial",     desc:"Simulador de estaciones ECOE con evaluación estructurada, checklists y feedback en tiempo real.", url:"https://fborrasumh.github.io/ecoe_ai/" },
-  { cat:"sim", icon:"ti-heart-handshake",    title:"Plan de Cuidados AI",  sub:"Enfermería",                   desc:"Generador y evaluador inteligente de planes de cuidados NANDA-NOC-NIC con razonamiento clínico.", url:"https://fborrasumh.github.io/plancuidados_ai/" },
-  { cat:"sim", icon:"ti-book-2",             title:"Casos MIR AI",         sub:"Preparación MIR",              desc:"Simulador de casos clínicos orientados al examen MIR con explicaciones detalladas y alta fidelidad.", url:"https://fborrasumh.github.io/casosmir_ai/" },
-  { cat:"sim", icon:"ti-nurse",              title:"Casos EIR AI",         sub:"Preparación EIR",              desc:"Casos clínicos específicos para el examen EIR de Enfermería con enfoque en cuidados y gestión.", url:"https://fborrasumh.github.io/casoseir_ai/" },
-  { cat:"sim", icon:"ti-run",                title:"Casos Fisioterapia AI", sub:"Fisioterapia",                 desc:"Simulaciones clínicas específicas de fisioterapia con valoración, diagnóstico y planificación.", url:"https://fborrasumh.github.io/casosfisio_ai/" },
-  { cat:"sim", icon:"ti-tooth",              title:"Casos Terapia Ocuapcional AI", sub:"Terapia Ocuapcional",                desc:"Simulador de casos clínicos Terapia Ocupacional para entrenamiento en diagnóstico y plan de tratamiento.", url:"https://fborrasumh.github.io/casosto_ai/" },
-  { cat:"sim", icon:"ti-footprint",          title:"Casos Podología AI",   sub:"Podología",                    desc:"Casos clínicos podológicos interactivos con enfoque en biomecánica y tratamientos.", url:"https://fborrasumh.github.io/casospodo_ai/" },
-  { cat:"sim", icon:"ti-bandage",            title:"Pie Diabético AI",     sub:"Podología",                 desc:"Simulador avanzado de pie diabético para prevención, valoración y manejo de complicaciones.", url:"https://fborrasumh.github.io/piediabetica_ai/" },
 
+// ── MEDICINA ──
+{ cat:"sim", icon:"ti-book-2",             title:"Casos MIR AI",                 sub:"Medicina · Preparación MIR",     desc:"Simulador de casos clínicos orientados al examen MIR con explicaciones detalladas y alta fidelidad.", url:"https://fborrasumh.github.io/casosmir_ai/" },
+{ cat:"sim", icon:"ti-git-branch",         title:"Diferencial Guiado AI",        sub:"Medicina · Razonamiento",        desc:"Tutor socrático de diagnóstico diferencial: guía con preguntas, hallazgos deterministas y árbol de hipótesis visible.", url:"https://fborrasumh.github.io/diferencialguiado_ai/" },
+{ cat:"sim", icon:"ti-report-medical",     title:"Interpretación Clínica AI",    sub:"Medicina · Pruebas complementarias", desc:"Entrenador de interpretación de analíticas, imagen y ECG con casos progresivos y feedback razonado.", url:"https://fborrasumh.github.io/interpretacionclinica_ai/" },
+ 
+// ── FISIOTERAPIA ──
+{ cat:"sim", icon:"ti-run",                title:"Casos Fisioterapia AI",        sub:"Fisioterapia",                   desc:"Simulaciones clínicas específicas de fisioterapia con valoración, diagnóstico y planificación.", url:"https://fborrasumh.github.io/casosfisio_ai/" },
+{ cat:"sim", icon:"ti-brain",              title:"Razonamiento Fisio AI",        sub:"Fisioterapia · Razonamiento",    desc:"Tutor socrático de razonamiento clínico: hipótesis, cribado de banderas rojas, hallazgos literales del caso y rúbrica final.", url:"https://fborrasumh.github.io/razonamientofisio_ai/" },
+ 
+// ── PODOLOGÍA ──
+{ cat:"sim", icon:"ti-footprint",          title:"Casos Podología AI",           sub:"Podología",                      desc:"Casos clínicos podológicos interactivos con enfoque en biomecánica y tratamientos.", url:"https://fborrasumh.github.io/casospodo_ai/" },
+{ cat:"sim", icon:"ti-bandage",            title:"Pie Diabético AI",             sub:"Podología",                      desc:"Simulador avanzado de pie diabético para prevención, valoración y manejo de complicaciones.", url:"https://fborrasumh.github.io/piediabetica_ai/" },
+ 
+// ── TERAPIA OCUPACIONAL ──
+{ cat:"sim", icon:"ti-tooth",              title:"Casos Terapia Ocupacional AI", sub:"Terapia Ocupacional",            desc:"Simulador de casos clínicos Terapia Ocupacional para entrenamiento en diagnóstico y plan de tratamiento.", url:"https://fborrasumh.github.io/casosto_ai/" },
+{ cat:"sim", icon:"ti-puzzle",             title:"Modelos TO AI",                sub:"Terapia Ocupacional · Modelos",  desc:"Entrenador de aplicación de modelos de TO (MOHO, CMOP-E, Kawa…) sobre casos: elección justificada, valoración y plan.", url:"https://fborrasumh.github.io/modelosto_ai/" },
+ 
+// ── ENFERMERÍA ──
+{ cat:"sim", icon:"ti-heart-handshake",    title:"Plan de Cuidados AI",          sub:"Enfermería",                     desc:"Generador y evaluador inteligente de planes de cuidados NANDA-NOC-NIC con razonamiento clínico.", url:"https://fborrasumh.github.io/plancuidados_ai/" },
+{ cat:"sim", icon:"ti-nurse",              title:"Casos EIR AI",                 sub:"Enfermería · Preparación EIR",   desc:"Casos clínicos específicos para el examen EIR de Enfermería con enfoque en cuidados y gestión.", url:"https://fborrasumh.github.io/casoseir_ai/" },
+{ cat:"sim", icon:"ti-calculator",         title:"CalcDosis AI",                 sub:"Enfermería · Farmacología",      desc:"Entrenador de cálculo de dosis, diluciones y ritmos de perfusión con corrección determinista y casos generados por IA.", url:"https://fborrasumh.github.io/calcdosis_ai/" },
+ 
+// ── TODAS LAS TITULACIONES ──
+{ cat:"sim", icon:"ti-user-heart",         title:"Paciente Virtual AI",          sub:"Todas · Entrenamiento Clínico",  desc:"Simulador de paciente virtual completo con historia clínica, síntomas y respuestas realistas.", url:"https://fborrasumh.github.io/pacientevirtual_ai/" },
+{ cat:"sim", icon:"ti-stethoscope",        title:"Anamnesis AI",                 sub:"Todas · Entrenamiento Clínico",  desc:"Simulación de paciente para entrenar el proceso de anamnesis con IA y soporte multilingüe.", url:"https://fborrasumh.github.io/anamnesis_ai/" },
+{ cat:"sim", icon:"ti-clipboard-text",     title:"Casos Clínicos AI",            sub:"Todas · Entrenamiento por Casos", desc:"Biblioteca inteligente de casos clínicos interactivos con diferentes niveles de dificultad y feedback.", url:"https://fborrasumh.github.io/casos_ai/" },
+{ cat:"sim", icon:"ti-checklist",          title:"ECOE AI",                      sub:"Todas · Evaluación Competencial", desc:"Simulador de estaciones ECOE con evaluación estructurada, checklists y feedback en tiempo real.", url:"https://fborrasumh.github.io/ecoe_ai/" },
+{ cat:"sim", icon:"ti-message-heart",      title:"Malas Noticias AI",            sub:"Todas · Comunicación clínica",   desc:"Simulador de comunicación de malas noticias con paciente emocional realista, modo manos libres y evaluación SPIKES.", url:"https://fborrasumh.github.io/malasnoticias_ai/" },
+{ cat:"sim", icon:"ti-timeline",           title:"Paciente Crónico AI",          sub:"Todas · Seguimiento longitudinal", desc:"Paciente crónico que evoluciona entre consultas según tus decisiones: parámetros, adherencia, eventos y gráficas de evolución.", url:"https://fborrasumh.github.io/pacientecronico_ai/" },
+{ cat:"sim", icon:"ti-arrows-exchange",    title:"SBAR AI",                      sub:"Todas · Comunicación clínica",   desc:"Entrenador de traspaso de pacientes con metodología SBAR: escenarios generados, transmisión estructurada y rúbrica de evaluación.", url:"https://fborrasumh.github.io/sbar_ai/" },
 
   // ── UTILIDADES ────────────────────────────────────
   { cat:"uti", icon:"ti-notes",              title:"ActaAI",           sub:"Generador de Actas",           desc:"Genera actas de reuniones y sesiones académicas o institucionales de forma automática a partir de notas o audio.", url:"https://fborrasumh.github.io/acta_ai/" },
