@@ -3,7 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Aplicaciones IA · fborrasumh</title>
+<title>Aplicaciones IA · fborrasumh · UMH</title>
+<meta name="description" content="Catálogo de aplicaciones de IA para docencia, evaluación, investigación y simulación clínica. Universidad Miguel Hernández de Elche. / AI tools for teaching, assessment, research and clinical simulation.">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/dist/tabler-icons.min.css">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -39,7 +40,28 @@ header {
   color: #fff;
   padding: 52px 32px 44px;
   text-align: center;
+  position: relative;
 }
+.lang-toggle {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  display: inline-flex;
+  border: 1px solid #3a3934;
+  border-radius: 99px;
+  overflow: hidden;
+}
+.lang-toggle button {
+  background: transparent;
+  color: #888;
+  border: 0;
+  font: 600 12px/1 'Inter', sans-serif;
+  letter-spacing: .06em;
+  padding: 7px 13px;
+  cursor: pointer;
+  transition: background .15s, color .15s;
+}
+.lang-toggle button.active { background: #fff; color: #1a1916; }
 .eyebrow {
   font-size: 11px;
   font-weight: 600;
@@ -60,7 +82,7 @@ h1 span { color: #6b8fff; }
 .sub {
   font-size: 1rem;
   color: #999;
-  max-width: 500px;
+  max-width: 520px;
   margin: 0 auto 32px;
   line-height: 1.65;
 }
@@ -117,7 +139,7 @@ main {
 .pill.active.doc { background: var(--doc); border-color: var(--doc); color: #fff; }
 .pill.active.eva { background: var(--eva); border-color: var(--eva); color: #fff; }
 .pill.active.inv { background: var(--inv); border-color: var(--inv); color: #fff; }
-.pill.active.sim { background: var(--sim); border-color: var(--sim); color: #fff; }  
+.pill.active.sim { background: var(--sim); border-color: var(--sim); color: #fff; }
 .pill.active.uti { background: var(--uti); border-color: var(--uti); color: #fff; }
 
 .search-wrap {
@@ -175,7 +197,6 @@ tr.row {
   cursor: pointer;
   transition: background .1s;
 }
-tr.row:last-child { border-bottom: none; }
 tr.row:hover { background: #faf9f7; }
 td {
   padding: 13px 14px;
@@ -226,16 +247,84 @@ td {
 .badge.sim { background: #fbdcec; color: var(--sim); }
 .badge.uti { background: #ede5fa; color: var(--uti); }
 
-.link-td { width: 40px; text-align: center; }
-.link-td a {
+.link-td { width: 74px; text-align: right; white-space: nowrap; }
+.link-td a, .link-td button {
   color: var(--muted);
+  background: none;
+  border: 0;
+  cursor: pointer;
   font-size: 16px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  transition: color .15s;
+  padding: 4px;
+  transition: color .15s, transform .2s;
 }
-.link-td a:hover { color: var(--text); }
+.link-td a:hover, .link-td button:hover { color: var(--text); }
+.link-td button.open i { transform: rotate(180deg); }
+.link-td button i { transition: transform .2s; }
+
+/* FICHA (detail row) */
+tr.detail td {
+  background: #faf9f7;
+  border-bottom: 0.5px solid var(--border);
+  padding: 16px 18px 18px;
+}
+.ficha {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: 16px 24px;
+}
+.ficha .f-block h4 {
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: .1em;
+  color: var(--muted);
+  margin-bottom: 5px;
+}
+.ficha .f-block p { font-size: 13px; line-height: 1.55; color: #444; }
+.doi-ok {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--inv);
+  text-decoration: none;
+}
+.doi-ok:hover { text-decoration: underline; }
+.doi-pending {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 11px;
+  font-weight: 600;
+  color: #8a6d1a;
+  background: #f6ecd2;
+  border-radius: 99px;
+  padding: 3px 10px;
+}
+.cite-box {
+  margin-top: 8px;
+  font-size: 12px;
+  line-height: 1.5;
+  color: #555;
+  background: #fff;
+  border: 0.5px solid var(--border);
+  border-radius: 8px;
+  padding: 9px 11px;
+}
+.copy-cite {
+  margin-top: 6px;
+  font: 500 11px/1 'Inter', sans-serif;
+  color: var(--doc);
+  background: none;
+  border: 0;
+  cursor: pointer;
+  padding: 0;
+}
+.copy-cite:hover { text-decoration: underline; }
 
 .empty {
   text-align: center;
@@ -262,27 +351,32 @@ footer a:hover { text-decoration: underline; }
   .desc-cell, .desc-th { display: none; }
   .search-wrap input { width: 150px; }
   h1 { font-size: 2rem; }
+  .lang-toggle { top: 10px; right: 10px; }
 }
 </style>
 </head>
 <body>
 
 <header>
-  <p class="eyebrow">fborrasumh · UMH · Alicante</p>
-  <h1>Herramientas <span>IA</span><br>para la academia</h1>
-  <p class="sub">Aplicaciones de inteligencia artificial para docencia, evaluación, investigación, simulación clínica y creación de contenido. Funcionan en el navegador. Tu API Key nunca se comparte.</p>
+  <div class="lang-toggle" role="group" aria-label="Idioma / Language">
+    <button id="btn-es" onclick="setLang('es')">ES</button>
+    <button id="btn-en" onclick="setLang('en')">EN</button>
+  </div>
+  <p class="eyebrow" data-i18n="eyebrow">fborrasumh · UMH · Alicante</p>
+  <h1 id="h1"></h1>
+  <p class="sub" data-i18n="sub"></p>
   <div class="stats">
     <div>
       <div class="stat-n" id="stat-total">—</div>
-      <div class="stat-l">Herramientas</div>
+      <div class="stat-l" data-i18n="statTools"></div>
     </div>
     <div>
       <div class="stat-n">5</div>
-      <div class="stat-l">Categorías</div>
+      <div class="stat-l" data-i18n="statCats"></div>
     </div>
     <div>
       <div class="stat-n">100%</div>
-      <div class="stat-l">En el navegador</div>
+      <div class="stat-l" data-i18n="statBrowser"></div>
     </div>
   </div>
 </header>
@@ -290,26 +384,26 @@ footer a:hover { text-decoration: underline; }
 <main>
   <div class="toolbar">
     <button class="pill active" data-cat="all" onclick="setFilter('all',this)">
-      <i class="ti ti-layout-grid"></i> Todas <span id="cnt-all"></span>
+      <i class="ti ti-layout-grid"></i> <span data-i18n="all">Todas</span> <span id="cnt-all"></span>
     </button>
     <button class="pill" data-cat="doc" onclick="setFilter('doc',this)">
-      <i class="ti ti-chalkboard"></i> Docencia
+      <i class="ti ti-chalkboard"></i> <span data-i18n="catDoc"></span>
     </button>
     <button class="pill" data-cat="eva" onclick="setFilter('eva',this)">
-      <i class="ti ti-clipboard-check"></i> Evaluación
+      <i class="ti ti-clipboard-check"></i> <span data-i18n="catEva"></span>
     </button>
     <button class="pill" data-cat="inv" onclick="setFilter('inv',this)">
-      <i class="ti ti-microscope"></i> Investigación
+      <i class="ti ti-microscope"></i> <span data-i18n="catInv"></span>
     </button>
     <button class="pill" data-cat="sim" onclick="setFilter('sim',this)">
-      <i class="ti ti-tools"></i> Simulación
+      <i class="ti ti-stethoscope"></i> <span data-i18n="catSim"></span>
     </button>
     <button class="pill" data-cat="uti" onclick="setFilter('uti',this)">
-      <i class="ti ti-tools"></i> Utilidades
+      <i class="ti ti-tools"></i> <span data-i18n="catUti"></span>
     </button>
     <div class="search-wrap">
       <i class="ti ti-search"></i>
-      <input type="text" id="q" placeholder="Buscar herramienta…" oninput="render()" autocomplete="off">
+      <input type="text" id="q" placeholder="" oninput="render()" autocomplete="off">
     </div>
   </div>
 
@@ -318,159 +412,385 @@ footer a:hover { text-decoration: underline; }
       <thead>
         <tr>
           <th style="width:46px"></th>
-          <th>Herramienta</th>
-          <th class="desc-th">Descripción</th>
-          <th>Categoría</th>
-          <th style="width:44px"></th>
+          <th data-i18n="thTool"></th>
+          <th class="desc-th" data-i18n="thDesc"></th>
+          <th data-i18n="thCat"></th>
+          <th style="width:74px"></th>
         </tr>
       </thead>
       <tbody id="tbody"></tbody>
     </table>
     <div id="empty" class="empty" style="display:none">
       <i class="ti ti-search"></i>
-      Sin resultados para tu búsqueda
+      <span data-i18n="empty"></span>
     </div>
   </div>
 </main>
 
 <footer>
-  <p>Desarrollado por <a href="https://github.com/fborrasumh" target="_blank">@fborrasumh</a> · Universidad Miguel Hernández de Elche</p>
-  <p style="margin-top:6px;">Tu API Key de OpenAI se guarda en tu navegador y nunca se envía a terceros.</p>
+  <p><span data-i18n="footDev"></span> <a href="https://github.com/fborrasumh" target="_blank" rel="noopener">@fborrasumh</a> · Universidad Miguel Hernández de Elche</p>
+  <p style="margin-top:6px;" data-i18n="footKey"></p>
 </footer>
 
 <script>
 /* =====================================================
    AÑADIR NUEVA APP: añade un objeto al final del array.
-   cat:  "doc" | "eva" | "inv" | "sim"| "uti"
+   cat:  "doc" | "eva" | "inv" | "sim" | "uti"
    icon: nombre de icono Tabler → https://tabler.io/icons
+   doi:  déjalo "" hasta acuñarlo en Zenodo; después pega
+         el DOI de concepto, p. ej. "10.5281/zenodo.1234567"
+   Cada app lleva ficha bilingüe:
+     es/en → { sub, desc, tit (titulación), comp (competencias), evid (evidencia de uso) }
    ===================================================== */
+
+const ui = {
+  es: {
+    eyebrow: "fborrasumh · UMH · Alicante",
+    h1: 'Herramientas <span>IA</span><br>para la academia',
+    sub: "Aplicaciones de inteligencia artificial para docencia, evaluación, investigación, simulación clínica y creación de contenido. Funcionan en el navegador. Tu API Key nunca se comparte.",
+    statTools: "Herramientas", statCats: "Categorías", statBrowser: "En el navegador",
+    all: "Todas", catDoc: "Docencia", catEva: "Evaluación", catInv: "Investigación", catSim: "Simulación", catUti: "Utilidades",
+    search: "Buscar herramienta…", empty: "Sin resultados para tu búsqueda",
+    thTool: "Herramienta", thDesc: "Descripción", thCat: "Categoría",
+    footDev: "Desarrollado por", footKey: "Tu API Key de OpenAI se guarda en tu navegador y nunca se envía a terceros.",
+    fTit: "Titulación / Programa", fComp: "Competencias que trabaja", fEvid: "Evidencia de uso", fCite: "Cómo citar",
+    doiPending: "DOI pendiente (Zenodo)", openApp: "Abrir", showFicha: "Ver ficha", copyCite: "Copiar cita", copied: "¡Copiada!",
+    software: "Software"
+  },
+  en: {
+    eyebrow: "fborrasumh · UMH · Alicante, Spain",
+    h1: '<span>AI</span> tools<br>for academia',
+    sub: "Artificial-intelligence applications for teaching, assessment, research, clinical simulation and content creation. They run entirely in your browser. Your API key is never shared.",
+    statTools: "Tools", statCats: "Categories", statBrowser: "In the browser",
+    all: "All", catDoc: "Teaching", catEva: "Assessment", catInv: "Research", catSim: "Simulation", catUti: "Utilities",
+    search: "Search tools…", empty: "No results for your search",
+    thTool: "Tool", thDesc: "Description", thCat: "Category",
+    footDev: "Developed by", footKey: "Your OpenAI API key is stored in your browser and never sent to third parties.",
+    fTit: "Degree / Programme", fComp: "Competencies addressed", fEvid: "Evidence of use", fCite: "How to cite",
+    doiPending: "DOI pending (Zenodo)", openApp: "Open", showFicha: "Details", copyCite: "Copy citation", copied: "Copied!",
+    software: "Computer software"
+  }
+};
+
+const EV_ES = "Pendiente de registro sistemático de uso.";
+const EV_EN = "Systematic usage records pending.";
+
 const apps = [
   // ── DOCENCIA ──────────────────────────────────────
-  { cat:"doc", icon:"ti-school",           title:"Genia",           sub:"Programaciones Didácticas",    desc:"Generador de programaciones didácticas para ESO y Bachillerato según LOMLOE y normativa valenciana.", url:"https://fborrasumh.github.io/genia/" },
-  { cat:"doc", icon:"ti-building-monument", title:"SyllabusAI",      sub:"Guías Docentes Universitarias",desc:"Genera guías docentes universitarias: competencias, resultados de aprendizaje, contenidos y evaluación.", url:"https://fborrasumh.github.io/sillabusAI/" },
-  { cat:"doc", icon:"ti-award",              title:"Pericia",          sub:"Generador de Cursos",          desc:"Crea cursos completos con IA: índice, contenido, evaluaciones y proyectos listos para usar.", url:"https://fborrasumh.github.io/pericia/" },
-  { cat:"doc", icon:"ti-book",               title:"Generator",        sub:"Generador de Asignaturas",     desc:"Sube materiales y genera asignaturas completas con teoría, tests, mapas conceptuales y bibliografía.", url:"https://fborrasumh.github.io/generator/" },
-  { cat:"doc", icon:"ti-briefcase",          title:"CasoPrácticoAI",  sub:"Generador de Casos Prácticos", desc:"Crea casos narrativos, Harvard, role-plays, proyectos cortos, análisis críticos y debates.", url:"https://fborrasumh.github.io/casopracticoAI/" },
-  { cat:"doc", icon:"ti-adjustments",        title:"AdaptaAI",         sub:"Adaptaciones Curriculares",    desc:"Genera adaptaciones curriculares individualizadas para alumnado con necesidades específicas de apoyo educativo (NEAE).", url:"https://fborrasumh.github.io/adapta_ai/" },
-  { cat:"doc", icon:"ti-award",        title:"Nutriquest",         sub:"Valoración Nutricional de Alimentos · autoaprendizaje gamificado",    desc:"Aprende nutrición jugando, tema a tema", url:"https://fborrasumh.github.io/nutriquest/" },
- 
-  { cat:"doc", icon:"ti-school",           title:"Grado Medicina UMH",           sub:" catálogo de 20 apps diseñado específicamente para el aprendizaje del Grado en Medicina ",    desc:"Generador de programaciones didácticas para ESO y Bachillerato según LOMLOE y normativa valenciana.", url:"https://fborrasumh.github.io/gradomedicinaumh_ai/" },
-  
-  { cat:"doc", icon:"ti-award",              title:"Master en Medicina Urgencias-Emergencias UMH",          sub:"20 simuladores de práctica clínica",          desc:"Veinte herramientas web", url:"https://fborrasumh.github.io/masterurgencia_ai/" },
-  { cat:"doc", icon:"ti-book",               title:"Master in investigacion Medicina Clínica",        sub:"20 simuladores de investigación en medicina  clínica",     desc:"Veinte herramientas web de uso obligado para diseñar, analizar, valorar y comunicar un estudio de investigación en ciencias de la salud.", url:"https://fborrasumh.github.io/mastermedcli_ai/" },
-  { cat:"doc", icon:"ti-briefcase",         title:"Master in investigacion Atención Primaria",        sub:"9 simuladores de investigación en atención primaria",     desc:"Nueve herramientas de apoyo al estudio, entrenamiento metodológico y preparación del TFM, disponibles 24/7 desde tu navegador", url:"https://fborrasumh.github.io/masteratencionprimaria_ai/" },
-  { cat:"doc", icon:"ti-building-monument", title:" Master en Administración y Dirección de Empresas-MBA UMH",      sub:"20 simuladores de prácticas ", desc:"genera un caso, sitúa al estudiante en un rol profesional real, le enfrenta a interlocutores de IA y evalúa su desempeño con rúbrica exportable", url:"https://fborrasumh.github.io/mba_ai/" },
-  { cat:"doc", icon:"ti-school",           title:"Sanitario de Combate de Operaciones Especiales",           sub:"15 simuladores que cubren fases TCCC",    desc:"Care Under Fire, MARCH, TACEVAC/triaje/documentación, y módulos especiales: quemaduras, blast injury, NRBQ, paliativos, ética/DIH", url:"https://fborrasumh.github.io/sanitariocombate_ai/" },
+  { cat:"doc", icon:"ti-school", title:"Genia", url:"https://fborrasumh.github.io/genia/", doi:"10.5281/zenodo.21423169",
+    es:{ sub:"Programaciones Didácticas", desc:"Generador de programaciones didácticas para ESO y Bachillerato según LOMLOE y normativa valenciana.", tit:"Máster de Profesorado · Educación Secundaria", comp:"Diseño curricular · LOMLOE · Situaciones de aprendizaje", evid:EV_ES },
+    en:{ sub:"Lesson-plan generator", desc:"Generates full teaching programmes for Spanish secondary education (ESO/Bachillerato) under LOMLOE and Valencian regulations.", tit:"Teacher-training Master's · Secondary education", comp:"Curriculum design · LOMLOE compliance · Learning situations", evid:EV_EN } },
+  { cat:"doc", icon:"ti-building-monument", title:"SyllabusAI", url:"https://fborrasumh.github.io/sillabusAI/", doi:"10.5281/zenodo.21423173",
+    es:{ sub:"Guías Docentes Universitarias", desc:"Genera guías docentes universitarias: competencias, resultados de aprendizaje, contenidos y evaluación.", tit:"Todas las titulaciones UMH", comp:"Resultados de aprendizaje · Alineamiento constructivo · Evaluación", evid:EV_ES },
+    en:{ sub:"University course guides", desc:"Generates university course guides: competencies, learning outcomes, contents and assessment plans.", tit:"All UMH degrees", comp:"Learning outcomes · Constructive alignment · Assessment design", evid:EV_EN } },
+  { cat:"doc", icon:"ti-award", title:"Pericia", url:"https://fborrasumh.github.io/pericia/", doi:"10.5281/zenodo.21423187",
+    es:{ sub:"Generador de Cursos", desc:"Crea cursos completos con IA: índice, contenido, evaluaciones y proyectos listos para usar.", tit:"Formación continua · Todas las titulaciones", comp:"Diseño instruccional · Evaluación por proyectos", evid:EV_ES },
+    en:{ sub:"Course generator", desc:"Builds complete courses with AI: syllabus, content, assessments and ready-to-use projects.", tit:"Continuing education · All degrees", comp:"Instructional design · Project-based assessment", evid:EV_EN } },
+  { cat:"doc", icon:"ti-book", title:"Generator", url:"https://fborrasumh.github.io/generator/", doi:"10.5281/zenodo.21423189",
+    es:{ sub:"Generador de Asignaturas", desc:"Sube materiales y genera asignaturas completas con teoría, tests, mapas conceptuales y bibliografía.", tit:"Todas las titulaciones", comp:"Estructuración de contenidos · Autoevaluación · Mapas conceptuales", evid:EV_ES },
+    en:{ sub:"Subject generator", desc:"Upload your materials and generate complete subjects with theory, quizzes, concept maps and bibliography.", tit:"All degrees", comp:"Content structuring · Self-assessment · Concept mapping", evid:EV_EN } },
+  { cat:"doc", icon:"ti-briefcase", title:"CasoPrácticoAI", url:"https://fborrasumh.github.io/casopracticoAI/", doi:"10.5281/zenodo.21423193",
+    es:{ sub:"Generador de Casos Prácticos", desc:"Crea casos narrativos, Harvard, role-plays, proyectos cortos, análisis críticos y debates.", tit:"Todas las titulaciones", comp:"Aprendizaje basado en casos · Pensamiento crítico · Debate", evid:EV_ES },
+    en:{ sub:"Case-study generator", desc:"Creates narrative and Harvard-style cases, role-plays, short projects, critical analyses and debates.", tit:"All degrees", comp:"Case-based learning · Critical thinking · Debate", evid:EV_EN } },
+  { cat:"doc", icon:"ti-adjustments", title:"AdaptaAI", url:"https://fborrasumh.github.io/adapta_ai/", doi:"10.5281/zenodo.21423195",
+    es:{ sub:"Adaptaciones Curriculares", desc:"Genera adaptaciones curriculares individualizadas para alumnado con necesidades específicas de apoyo educativo (NEAE).", tit:"Educación Secundaria · Orientación", comp:"Atención a la diversidad · DUA · Adaptación individualizada", evid:EV_ES },
+    en:{ sub:"Curricular adaptations", desc:"Generates individualised curricular adaptations for students with specific educational support needs.", tit:"Secondary education · Counselling", comp:"Inclusive education · UDL · Individualised adaptation", evid:EV_EN } },
+  { cat:"doc", icon:"ti-apple", title:"NutriQuest", url:"https://fborrasumh.github.io/nutriquest/", doi:"10.5281/zenodo.21423197",
+    es:{ sub:"Valoración Nutricional de Alimentos · autoaprendizaje gamificado", desc:"Aprende valoración nutricional jugando, tema a tema: retos, puntuación y feedback inmediato.", tit:"Ciencia y Tecnología de los Alimentos (EPSO-UMH)", comp:"Valoración nutricional · Composición de alimentos · Autoaprendizaje", evid:"Diseñada para la asignatura Valoración Nutricional de Alimentos (UMH)." },
+    en:{ sub:"Gamified self-study of food nutritional assessment", desc:"Learn nutritional assessment by playing, topic by topic: challenges, scoring and instant feedback.", tit:"Food Science and Technology (EPSO-UMH)", comp:"Nutritional assessment · Food composition · Self-directed learning", evid:"Built for the Food Nutritional Assessment course (UMH)." } },
+  { cat:"doc", icon:"ti-school", title:"Grado Medicina UMH", url:"https://fborrasumh.github.io/gradomedicinaumh_ai/", doi:"10.5281/zenodo.21423199",
+    es:{ sub:"Suite de 20 apps para el Grado en Medicina", desc:"Catálogo de veinte aplicaciones que acompañan los seis cursos del Grado: casos, razonamiento clínico, pruebas complementarias y comunicación.", tit:"Grado en Medicina (UMH)", comp:"Razonamiento clínico · Anamnesis · Interpretación de pruebas · Comunicación", evid:"Suite diseñada para el Grado en Medicina de la UMH; despliegue por cursos." },
+    en:{ sub:"Suite of 20 apps for the Medicine degree", desc:"Twenty applications spanning all six years of the degree: cases, clinical reasoning, diagnostic tests and communication.", tit:"Degree in Medicine (UMH)", comp:"Clinical reasoning · History taking · Test interpretation · Communication", evid:"Suite built for the UMH Medicine degree; staged roll-out per year." } },
+  { cat:"doc", icon:"ti-ambulance", title:"Máster en Medicina de Urgencias y Emergencias UMH", url:"https://fborrasumh.github.io/masterurgencias_ai/", doi:"10.5281/zenodo.21423201",
+    es:{ sub:"20 simuladores de práctica clínica", desc:"Veinte simuladores para residentes y alumnado del máster: escenarios de urgencias, triaje, procedimientos y decisión bajo presión temporal.", tit:"Máster en Medicina de Urgencias y Emergencias (UMH)", comp:"Triaje · Soporte vital · Toma de decisiones bajo presión", evid:"Suite diseñada para el máster; despliegue con residentes en curso." },
+    en:{ sub:"20 clinical-practice simulators", desc:"Twenty simulators for residents and master's students: emergency scenarios, triage, procedures and time-pressured decision making.", tit:"Master's in Emergency Medicine (UMH)", comp:"Triage · Life support · Decision making under pressure", evid:"Suite built for the master's programme; roll-out with residents ongoing." } },
+  { cat:"doc", icon:"ti-flask", title:"Máster en Investigación en Medicina Clínica", url:"https://fborrasumh.github.io/mastermedcli_ai/", doi:"10.5281/zenodo.21423204",
+    es:{ sub:"20 simuladores de investigación en medicina clínica", desc:"Veinte herramientas para diseñar, analizar, valorar y comunicar un estudio de investigación en ciencias de la salud.", tit:"Máster en Investigación en Medicina Clínica (UMH)", comp:"Diseño de estudios · Bioestadística · Lectura crítica · Comunicación científica", evid:EV_ES },
+    en:{ sub:"20 clinical-research training tools", desc:"Twenty tools to design, analyse, appraise and communicate a health-sciences research study.", tit:"Master's in Clinical Medicine Research (UMH)", comp:"Study design · Biostatistics · Critical appraisal · Scientific communication", evid:EV_EN } },
+  { cat:"doc", icon:"ti-first-aid-kit", title:"Máster en Investigación en Atención Primaria", url:"https://fborrasumh.github.io/masteratencionprimaria_ai/", doi:"10.5281/zenodo.21423206",
+    es:{ sub:"9 simuladores de investigación en atención primaria", desc:"Nueve herramientas de apoyo al estudio, entrenamiento metodológico y preparación del TFM, disponibles 24/7 desde el navegador.", tit:"Máster en Investigación en Atención Primaria (UMH)", comp:"Metodología de investigación · Preparación del TFM", evid:EV_ES },
+    en:{ sub:"9 primary-care research training tools", desc:"Nine tools for study support, methodological training and master's-thesis preparation, available 24/7 in the browser.", tit:"Master's in Primary Care Research (UMH)", comp:"Research methodology · Master's thesis preparation", evid:EV_EN } },
+  { cat:"doc", icon:"ti-building-monument", title:"Máster en Administración y Dirección de Empresas (MBA) UMH", url:"https://fborrasumh.github.io/mba_ai/", doi:"10.5281/zenodo.21423208",
+    es:{ sub:"20 simuladores de prácticas profesionales", desc:"Cada app genera un caso, sitúa al estudiante en un rol profesional real, le enfrenta a interlocutores de IA y evalúa su desempeño con rúbrica exportable.", tit:"MBA (UMH)", comp:"Negociación · Dirección · Análisis estratégico · Comunicación profesional", evid:EV_ES },
+    en:{ sub:"20 professional-practice simulators", desc:"Each app generates a case, places the student in a real professional role facing AI counterparts, and grades performance with an exportable rubric.", tit:"MBA (UMH)", comp:"Negotiation · Management · Strategic analysis · Professional communication", evid:EV_EN } },
+  { cat:"doc", icon:"ti-shield-cross", title:"Sanitario de Combate de Operaciones Especiales", url:"https://fborrasumh.github.io/sanitariocombate_ai/", doi:"10.5281/zenodo.21423210",
+    es:{ sub:"15 simuladores que cubren las fases TCCC", desc:"Care Under Fire, MARCH, TACEVAC, triaje y documentación, más módulos especiales: quemaduras, blast injury, NRBQ, paliativos y ética/DIH.", tit:"Formación sanitaria táctica", comp:"TCCC · MARCH · Triaje táctico · Ética y DIH", evid:EV_ES },
+    en:{ sub:"15 simulators covering the TCCC phases", desc:"Care Under Fire, MARCH, TACEVAC, triage and documentation, plus special modules: burns, blast injury, CBRN, palliative care and ethics/IHL.", tit:"Tactical combat casualty care training", comp:"TCCC · MARCH · Tactical triage · Ethics and IHL", evid:EV_EN } },
 
   // ── EVALUACIÓN ────────────────────────────────────
-  { cat:"eva", icon:"ti-clipboard-check",    title:"TFG Evaluator",    sub:"Evaluador de TFGs",            desc:"Evalúa TFGs mediante rúbricas con pipeline multiagente, calibración few-shot y detección de similitud.", url:"https://fborrasumh.github.io/TFG_evaluator/" },
-  { cat:"eva", icon:"ti-microphone",         title:"Evaluador Oral",   sub:"Exposiciones Orales",          desc:"Asistente para evaluar exposiciones orales de forma estructurada y consistente.", url:"https://fborrasumh.github.io/evaluador_oral/" },
-  { cat:"eva", icon:"ti-pencil",             title:"ExamForge",        sub:"Generador de Exámenes",        desc:"Genera exámenes personalizados adaptados a los contenidos de la asignatura. Exporta a PDF.", url:"https://fborrasumh.github.io/examforge/" },
-  { cat:"eva", icon:"ti-microphone",         title:"Estancias podologia",   sub:"Evaluación estancias practicas podología",          desc:"Evaluación por voz de Estancias con pacientes reales · transcripción gratuita en el navegador (Chrome)", url:"https://fborrasumh.github.io/estancias_podologia/" },
+  { cat:"eva", icon:"ti-clipboard-check", title:"TFG Evaluator", url:"https://fborrasumh.github.io/TFG_evaluator/", doi:"10.5281/zenodo.21423214",
+    es:{ sub:"Evaluador de TFGs", desc:"Evalúa TFGs mediante rúbricas con pipeline multiagente, calibración few-shot y detección de similitud.", tit:"Todas las titulaciones", comp:"Evaluación con rúbricas · Consistencia inter-evaluador · Feedback", evid:EV_ES },
+    en:{ sub:"Final-year project grader", desc:"Grades final-year projects with rubrics via a multi-agent pipeline, few-shot calibration and similarity detection.", tit:"All degrees", comp:"Rubric-based grading · Inter-rater consistency · Feedback", evid:EV_EN } },
+  { cat:"eva", icon:"ti-microphone", title:"Evaluador Oral", url:"https://fborrasumh.github.io/evaluador_oral/", doi:"10.5281/zenodo.21423283",
+    es:{ sub:"Exposiciones Orales", desc:"Asistente para evaluar exposiciones orales de forma estructurada y consistente.", tit:"Todas las titulaciones", comp:"Comunicación oral · Evaluación estructurada", evid:EV_ES },
+    en:{ sub:"Oral presentations", desc:"Assistant for grading oral presentations in a structured, consistent way.", tit:"All degrees", comp:"Oral communication · Structured assessment", evid:EV_EN } },
+  { cat:"eva", icon:"ti-pencil", title:"ExamForge", url:"https://fborrasumh.github.io/examforge/", doi:"10.5281/zenodo.21423287",
+    es:{ sub:"Generador de Exámenes", desc:"Genera exámenes personalizados adaptados a los contenidos de la asignatura. Exporta a PDF.", tit:"Todas las titulaciones", comp:"Diseño de pruebas · Alineamiento con contenidos", evid:EV_ES },
+    en:{ sub:"Exam generator", desc:"Generates custom exams adapted to your course contents. Exports to PDF.", tit:"All degrees", comp:"Test design · Content alignment", evid:EV_EN } },
+  { cat:"eva", icon:"ti-ear", title:"Estancias Podología", url:"https://fborrasumh.github.io/estancias_podologia/", doi:"10.5281/zenodo.21423289",
+    es:{ sub:"Evaluación de estancias prácticas de Podología", desc:"Evaluación por voz de estancias con pacientes reales · transcripción gratuita en el navegador (Chrome).", tit:"Grado en Podología (UMH)", comp:"Evaluación de prácticas clínicas · Registro por voz", evid:"En uso para la evaluación de estancias prácticas del Grado en Podología (UMH)." },
+    en:{ sub:"Podiatry clinical-placement assessment", desc:"Voice-based assessment of placements with real patients · free in-browser transcription (Chrome).", tit:"Degree in Podiatry (UMH)", comp:"Clinical placement assessment · Voice-note capture", evid:"In use for assessing clinical placements in the UMH Podiatry degree." } },
+
   // ── INVESTIGACIÓN ─────────────────────────────────
-  { cat:"inv", icon:"ti-microscope",         title:"Doctoralia",       sub:"Revisiones Científicas STEM",  desc:"Artículos de revisión con PubMed, Semantic Scholar, arXiv. 20 agentes en 5 fases.", url:"https://fborrasumh.github.io/doctoralia/" },
-  { cat:"inv", icon:"ti-theater",            title:"Humanitas",        sub:"Revisiones en Humanidades",    desc:"Revisiones académicas en Ciencias Sociales, Humanidades y Derecho con fuentes especializadas.", url:"https://fborrasumh.github.io/humanitas/" },
-  { cat:"inv", icon:"ti-file-text",          title:"Manuscriptor",     sub:"Artículos Científicos",        desc:"Convierte datos y manuscritos en artículos con estructura IMRaD y citas reales. Exporta a .docx.", url:"https://fborrasumh.github.io/manuscriptor/" },
-  { cat:"inv", icon:"ti-eye",                title:"Autoreviewer",     sub:"Revisión por Pares",           desc:"Revisión por pares automatizada: fortalezas, debilidades y recomendaciones detalladas.", url:"https://fborrasumh.github.io/autoreviewer/" },
-  { cat:"inv", icon:"ti-refresh",            title:"Autoresearch",     sub:"Mejorador Iterativo",          desc:"Mejora documentos científicos iterativamente mediante rúbrica hasta alcanzar un umbral de calidad.", url:"https://fborrasumh.github.io/autoresearch/" },
-  { cat:"inv", icon:"ti-refresh",            title:"Autoresearch2",     sub:"Mejorador Iterativo",          desc:"Iterador de documentos que mejora solo: rúbrica como métrica, parches auditables y tres puertas contra el ruido", url:"https://fborrasumh.github.io/autoresearch2/" }, 
-  { cat:"inv", icon:"ti-robot",              title:"Auto Research Bot",sub:"Bot de Investigación",         desc:"Bot conversacional de apoyo al proceso investigador.", url:"https://fborrasumh.github.io/autoresearchbot/" },
-  { cat:"inv", icon:"ti-database",           title:"Contestador RAG",  sub:"Preguntas sobre Documentos",   desc:"Sube documentos y hazles preguntas en lenguaje natural con Recuperación Aumentada por Generación.", url:"https://fborrasumh.github.io/contestador_rag/" },
-  { cat:"inv", icon:"ti-message-reply",     title:"PeerResponse AI",  sub:"Respuesta a Revisores",        desc:"Genera respuestas argumentadas y profesionales a los comentarios de revisores en el proceso de publicación científica.", url:"https://fborrasumh.github.io/peerresponse_ai/" },
-  { cat:"inv", icon:"ti-cash",               title:"GrantWriter",      sub:"Redacción de Proyectos",       desc:"Asistente para redactar memorias y justificaciones de proyectos de investigación y convocatorias de financiación.", url:"https://fborrasumh.github.io/grantwriter/" },
- 
-// ── SIMULACION ─────────────────────────────────
+  { cat:"inv", icon:"ti-microscope", title:"Doctoralia", url:"https://fborrasumh.github.io/doctoralia/", doi:"10.5281/zenodo.21423293",
+    es:{ sub:"Revisiones Científicas STEM", desc:"Artículos de revisión con PubMed, Semantic Scholar y arXiv. 20 agentes en 5 fases.", tit:"Investigación · Doctorado · TFM", comp:"Revisión de literatura · Síntesis de evidencia · Gestión de fuentes", evid:EV_ES },
+    en:{ sub:"STEM literature reviews", desc:"Review articles built from PubMed, Semantic Scholar and arXiv. 20 agents across 5 phases.", tit:"Research · PhD · Master's thesis", comp:"Literature review · Evidence synthesis · Source management", evid:EV_EN } },
+  { cat:"inv", icon:"ti-theater", title:"Humanitas", url:"https://fborrasumh.github.io/humanitas/", doi:"10.5281/zenodo.21423295",
+    es:{ sub:"Revisiones en Humanidades", desc:"Revisiones académicas en Ciencias Sociales, Humanidades y Derecho con fuentes especializadas.", tit:"CC. Sociales · Humanidades · Derecho", comp:"Revisión de literatura · Fuentes especializadas", evid:EV_ES },
+    en:{ sub:"Humanities literature reviews", desc:"Academic reviews in Social Sciences, Humanities and Law drawing on specialised sources.", tit:"Social Sciences · Humanities · Law", comp:"Literature review · Specialised sources", evid:EV_EN } },
+  { cat:"inv", icon:"ti-file-text", title:"Manuscriptor", url:"https://fborrasumh.github.io/manuscriptor/", doi:"10.5281/zenodo.21423297",
+    es:{ sub:"Artículos Científicos", desc:"Convierte datos y manuscritos en artículos con estructura IMRaD y citas reales. Exporta a .docx.", tit:"Investigación · Todas las áreas", comp:"Escritura científica · Estructura IMRaD · Citación", evid:EV_ES },
+    en:{ sub:"Scientific articles", desc:"Turns data and drafts into IMRaD-structured articles with real citations. Exports to .docx.", tit:"Research · All fields", comp:"Scientific writing · IMRaD structure · Citation", evid:EV_EN } },
+  { cat:"inv", icon:"ti-eye", title:"Autoreviewer", url:"https://fborrasumh.github.io/autoreviewer/", doi:"10.5281/zenodo.21423299",
+    es:{ sub:"Revisión por Pares", desc:"Revisión por pares automatizada: fortalezas, debilidades y recomendaciones detalladas.", tit:"Investigación · Todas las áreas", comp:"Lectura crítica · Evaluación de manuscritos", evid:EV_ES },
+    en:{ sub:"Peer review", desc:"Automated peer review: strengths, weaknesses and detailed recommendations.", tit:"Research · All fields", comp:"Critical appraisal · Manuscript evaluation", evid:EV_EN } },
+  { cat:"inv", icon:"ti-refresh", title:"Autoresearch", url:"https://fborrasumh.github.io/autoresearch/", doi:"10.5281/zenodo.21423303",
+    es:{ sub:"Mejorador Iterativo", desc:"Mejora documentos científicos iterativamente mediante rúbrica hasta alcanzar un umbral de calidad.", tit:"Investigación · Todas las áreas", comp:"Mejora iterativa · Evaluación con rúbricas", evid:EV_ES },
+    en:{ sub:"Iterative improver", desc:"Iteratively improves scientific documents against a rubric until a quality threshold is reached.", tit:"Research · All fields", comp:"Iterative improvement · Rubric-based evaluation", evid:EV_EN } },
+  { cat:"inv", icon:"ti-refresh-dot", title:"Autoresearch2", url:"https://fborrasumh.github.io/autoresearch2/", doi:"10.5281/zenodo.21423305",
+    es:{ sub:"Mejorador Iterativo v2", desc:"Iterador de documentos que mejora solo: rúbrica como métrica, parches auditables y tres puertas contra el ruido.", tit:"Investigación · Todas las áreas", comp:"Mejora autónoma · Parches auditables · Control de calidad", evid:EV_ES },
+    en:{ sub:"Iterative improver v2", desc:"Self-improving document iterator: rubric as metric, auditable patches and a three-gate defence against noise.", tit:"Research · All fields", comp:"Autonomous improvement · Auditable patches · Quality gates", evid:EV_EN } },
+  { cat:"inv", icon:"ti-robot", title:"Auto Research Bot", url:"https://fborrasumh.github.io/autoresearchbot/", doi:"10.5281/zenodo.21423309",
+    es:{ sub:"Bot de Investigación", desc:"Bot conversacional de apoyo al proceso investigador.", tit:"Investigación · Todas las áreas", comp:"Asistencia metodológica conversacional", evid:EV_ES },
+    en:{ sub:"Research bot", desc:"Conversational bot supporting the research workflow.", tit:"Research · All fields", comp:"Conversational methodological support", evid:EV_EN } },
+  { cat:"inv", icon:"ti-database", title:"Contestador RAG", url:"https://fborrasumh.github.io/contestador_rag/", doi:"10.5281/zenodo.21423313",
+    es:{ sub:"Preguntas sobre Documentos", desc:"Sube documentos y hazles preguntas en lenguaje natural con Recuperación Aumentada por Generación.", tit:"Investigación · Docencia", comp:"Interrogación documental · RAG", evid:EV_ES },
+    en:{ sub:"Ask your documents", desc:"Upload documents and query them in natural language with Retrieval-Augmented Generation.", tit:"Research · Teaching", comp:"Document querying · RAG", evid:EV_EN } },
+  { cat:"inv", icon:"ti-message-reply", title:"PeerResponse AI", url:"https://fborrasumh.github.io/peerresponse_ai/", doi:"10.5281/zenodo.21423317",
+    es:{ sub:"Respuesta a Revisores", desc:"Genera respuestas argumentadas y profesionales a los comentarios de revisores en el proceso de publicación.", tit:"Investigación · Todas las áreas", comp:"Argumentación académica · Proceso editorial", evid:EV_ES },
+    en:{ sub:"Response to reviewers", desc:"Generates well-argued, professional responses to reviewer comments during the publication process.", tit:"Research · All fields", comp:"Academic argumentation · Editorial process", evid:EV_EN } },
+  { cat:"inv", icon:"ti-cash", title:"GrantWriter", url:"https://fborrasumh.github.io/grantwriter/", doi:"10.5281/zenodo.21423319",
+    es:{ sub:"Redacción de Proyectos", desc:"Asistente para redactar memorias y justificaciones de proyectos de investigación y convocatorias de financiación.", tit:"Investigación · Transferencia", comp:"Redacción de memorias · Convocatorias competitivas", evid:EV_ES },
+    en:{ sub:"Grant writing", desc:"Assistant for drafting research-project proposals and justifications for funding calls.", tit:"Research · Knowledge transfer", comp:"Proposal writing · Competitive funding calls", evid:EV_EN } },
 
+  // ── SIMULACIÓN · MEDICINA ─────────────────────────
+  { cat:"sim", icon:"ti-book-2", title:"Casos MIR AI", url:"https://fborrasumh.github.io/casosmir_ai/", doi:"10.5281/zenodo.21423323",
+    es:{ sub:"Medicina · Preparación MIR", desc:"Simulador de casos clínicos orientados al examen MIR con explicaciones detalladas y alta fidelidad.", tit:"Grado en Medicina", comp:"Razonamiento clínico · Preparación MIR", evid:EV_ES },
+    en:{ sub:"Medicine · MIR exam prep", desc:"Clinical-case simulator geared to the Spanish MIR exam, with detailed high-fidelity explanations.", tit:"Degree in Medicine", comp:"Clinical reasoning · MIR exam preparation", evid:EV_EN } },
+  { cat:"sim", icon:"ti-git-branch", title:"Diferencial Guiado AI", url:"https://fborrasumh.github.io/diferencialguiado_ai/", doi:"10.5281/zenodo.21423325",
+    es:{ sub:"Medicina · Razonamiento", desc:"Tutor socrático de diagnóstico diferencial: guía con preguntas, hallazgos deterministas y árbol de hipótesis visible.", tit:"Grado en Medicina", comp:"Diagnóstico diferencial · Metacognición clínica", evid:EV_ES },
+    en:{ sub:"Medicine · Reasoning", desc:"Socratic differential-diagnosis tutor: question-led guidance, deterministic findings and a visible hypothesis tree.", tit:"Degree in Medicine", comp:"Differential diagnosis · Clinical metacognition", evid:EV_EN } },
+  { cat:"sim", icon:"ti-report-medical", title:"Interpretación Clínica AI", url:"https://fborrasumh.github.io/interpretacionclinica_ai/", doi:"10.5281/zenodo.21423329",
+    es:{ sub:"Medicina · Pruebas complementarias", desc:"Entrenador de interpretación de analíticas, imagen y ECG con casos progresivos y feedback razonado.", tit:"Grado en Medicina", comp:"Interpretación de pruebas · Analítica · ECG · Imagen", evid:EV_ES },
+    en:{ sub:"Medicine · Diagnostic tests", desc:"Trainer for interpreting lab results, imaging and ECG, with progressive cases and reasoned feedback.", tit:"Degree in Medicine", comp:"Test interpretation · Labs · ECG · Imaging", evid:EV_EN } },
 
-// ── MEDICINA ──
-{ cat:"sim", icon:"ti-book-2",             title:"Casos MIR AI",                 sub:"Medicina · Preparación MIR",     desc:"Simulador de casos clínicos orientados al examen MIR con explicaciones detalladas y alta fidelidad.", url:"https://fborrasumh.github.io/casosmir_ai/" },
-{ cat:"sim", icon:"ti-git-branch",         title:"Diferencial Guiado AI",        sub:"Medicina · Razonamiento",        desc:"Tutor socrático de diagnóstico diferencial: guía con preguntas, hallazgos deterministas y árbol de hipótesis visible.", url:"https://fborrasumh.github.io/diferencialguiado_ai/" },
-{ cat:"sim", icon:"ti-report-medical",     title:"Interpretación Clínica AI",    sub:"Medicina · Pruebas complementarias", desc:"Entrenador de interpretación de analíticas, imagen y ECG con casos progresivos y feedback razonado.", url:"https://fborrasumh.github.io/interpretacionclinica_ai/" },
- 
-// ── FISIOTERAPIA ──
-{ cat:"sim", icon:"ti-run",                title:"Casos Fisioterapia AI",        sub:"Fisioterapia",                   desc:"Simulaciones clínicas específicas de fisioterapia con valoración, diagnóstico y planificación.", url:"https://fborrasumh.github.io/casosfisio_ai/" },
-{ cat:"sim", icon:"ti-brain",              title:"Razonamiento Fisio AI",        sub:"Fisioterapia · Razonamiento",    desc:"Tutor socrático de razonamiento clínico: hipótesis, cribado de banderas rojas, hallazgos literales del caso y rúbrica final.", url:"https://fborrasumh.github.io/razonamientofisio_ai/" },
- 
-// ── PODOLOGÍA ──
-{ cat:"sim", icon:"ti-shoe",               title:"Casos Podología AI",           sub:"Podología",                      desc:"Casos clínicos podológicos interactivos con enfoque en biomecánica y tratamientos.", url:"https://fborrasumh.github.io/casospodo_ai/" },
-{ cat:"sim", icon:"ti-bandage",            title:"Pie Diabético AI",             sub:"Podología",                      desc:"Simulador avanzado de pie diabético para prevención, valoración y manejo de complicaciones.", url:"https://fborrasumh.github.io/piediabetico_ai/" },
- 
-// ── TERAPIA OCUPACIONAL ──
-{ cat:"sim", icon:"ti-accessible",         title:"Casos Terapia Ocupacional AI", sub:"Terapia Ocupacional",            desc:"Simulador de casos clínicos Terapia Ocupacional para entrenamiento en diagnóstico y plan de tratamiento.", url:"https://fborrasumh.github.io/casosto_ai/" },
-{ cat:"sim", icon:"ti-puzzle",             title:"Modelos TO AI",                sub:"Terapia Ocupacional · Modelos",  desc:"Entrenador de aplicación de modelos de TO (MOHO, CMOP-E, Kawa…) sobre casos: elección justificada, valoración y plan.", url:"https://fborrasumh.github.io/modelosto_ai/" },
- 
-// ── ENFERMERÍA ──
-{ cat:"sim", icon:"ti-heart-handshake",    title:"Plan de Cuidados AI",          sub:"Enfermería",                     desc:"Generador y evaluador inteligente de planes de cuidados NANDA-NOC-NIC con razonamiento clínico.", url:"https://fborrasumh.github.io/plancuidados_ai/" },
-{ cat:"sim", icon:"ti-nurse",              title:"Casos EIR AI",                 sub:"Enfermería · Preparación EIR",   desc:"Casos clínicos específicos para el examen EIR de Enfermería con enfoque en cuidados y gestión.", url:"https://fborrasumh.github.io/casoseir_ai/" },
-{ cat:"sim", icon:"ti-calculator",         title:"CalcDosis AI",                 sub:"Enfermería · Farmacología",      desc:"Entrenador de cálculo de dosis, diluciones y ritmos de perfusión con corrección determinista y casos generados por IA.", url:"https://fborrasumh.github.io/calcdosis_ai/" },
- 
-// ── TODAS LAS TITULACIONES ──
-{ cat:"sim", icon:"ti-user-heart",         title:"Paciente Virtual AI",          sub:"Todas · Entrenamiento Clínico",  desc:"Simulador de paciente virtual completo con historia clínica, síntomas y respuestas realistas.", url:"https://fborrasumh.github.io/pacientevirtual_ai/" },
-{ cat:"sim", icon:"ti-stethoscope",        title:"Anamnesis AI",                 sub:"Todas · Entrenamiento Clínico",  desc:"Simulación de paciente para entrenar el proceso de anamnesis con IA y soporte multilingüe.", url:"https://fborrasumh.github.io/anamnesis_ai/" },
-{ cat:"sim", icon:"ti-clipboard-text",     title:"Casos Clínicos AI",            sub:"Todas · Entrenamiento por Casos", desc:"Biblioteca inteligente de casos clínicos interactivos con diferentes niveles de dificultad y feedback.", url:"https://fborrasumh.github.io/casos_ai/" },
-{ cat:"sim", icon:"ti-checklist",          title:"ECOE AI",                      sub:"Todas · Evaluación Competencial", desc:"Simulador de estaciones ECOE con evaluación estructurada, checklists y feedback en tiempo real.", url:"https://fborrasumh.github.io/ecoe_ai/" },
-{ cat:"sim", icon:"ti-message-heart",      title:"Malas Noticias AI",            sub:"Todas · Comunicación clínica",   desc:"Simulador de comunicación de malas noticias con paciente emocional realista, modo manos libres y evaluación SPIKES.", url:"https://fborrasumh.github.io/malasnoticias_ai/" },
-{ cat:"sim", icon:"ti-timeline",           title:"Paciente Crónico AI",          sub:"Todas · Seguimiento longitudinal", desc:"Paciente crónico que evoluciona entre consultas según tus decisiones: parámetros, adherencia, eventos y gráficas de evolución.", url:"https://fborrasumh.github.io/pacientecronico_ai/" },
-{ cat:"sim", icon:"ti-arrows-exchange",    title:"SBAR AI",                      sub:"Todas · Comunicación clínica",   desc:"Entrenador de traspaso de pacientes con metodología SBAR: escenarios generados, transmisión estructurada y rúbrica de evaluación.", url:"https://fborrasumh.github.io/sbar_ai/" },
-{ cat:"sim", icon:"ti-urgent",             title:"Urgencias AI",                 sub:"Medicina/Enfermería · Presión temporal", desc:"Simulador de urgencias en tiempo real: triaje Manchester, monitor de constantes con deterioro determinista, NEWS2 en vivo y evaluación de tiempos hasta las intervenciones críticas.", url:"https://fborrasumh.github.io/urgencias_ai/" },
-{ cat:"sim", icon:"ti-shield-check",       title:"Seguridad Paciente AI",        sub:"Todas · Seguridad clínica",      desc:"Expediente clínico con errores latentes incrustados: detección con métrica determinista, análisis causa-raíz (Protocolo de Londres) y barreras de mejora.", url:"https://fborrasumh.github.io/seguridadpaciente_ai/" },
-{ cat:"sim", icon:"ti-scale",              title:"Ética Clínica AI",             sub:"Todas · Deliberación ética",     desc:"Dilemas éticos con el método deliberativo de Diego Gracia: entrevista a las partes, principios en conflicto, cursos intermedios, pruebas de consistencia y Ley 41/2002.", url:"https://fborrasumh.github.io/eticaclinica_ai/" },
-{ cat:"sim", icon:"ti-pill",               title:"Prescripción Segura AI",       sub:"Med/Farmacia/Enf · Farmacología clínica", desc:"Revisión de medicación de un paciente polimedicado (interacciones, STOPP, ajuste renal con Cockcroft-Gault en cliente) y nueva prescripción validada de forma determinista.", url:"https://fborrasumh.github.io/prescripcionsegura_ai/" },
-{ cat:"sim", icon:"ti-message-2-heart",    title:"Entrevista Motivacional AI",   sub:"Todas · Comunicación clínica",   desc:"Paciente ambivalente cuya disposición al cambio evoluciona con tus conductas OARS: codificación MITI, índices deterministas, curva de disposición y evaluación del espíritu EM.", url:"https://fborrasumh.github.io/entrevistamotivacional_ai/" },
-  
+  // ── SIMULACIÓN · FISIOTERAPIA ─────────────────────
+  { cat:"sim", icon:"ti-run", title:"Casos Fisioterapia AI", url:"https://fborrasumh.github.io/casosfisio_ai/", doi:"10.5281/zenodo.21423331",
+    es:{ sub:"Fisioterapia", desc:"Simulaciones clínicas específicas de fisioterapia con valoración, diagnóstico y planificación.", tit:"Grado en Fisioterapia", comp:"Valoración funcional · Diagnóstico fisioterápico · Planificación", evid:EV_ES },
+    en:{ sub:"Physiotherapy", desc:"Physiotherapy-specific clinical simulations with assessment, diagnosis and treatment planning.", tit:"Degree in Physiotherapy", comp:"Functional assessment · Physiotherapy diagnosis · Planning", evid:EV_EN } },
+  { cat:"sim", icon:"ti-brain", title:"Razonamiento Fisio AI", url:"https://fborrasumh.github.io/razonamientofisio_ai/", doi:"10.5281/zenodo.21423333",
+    es:{ sub:"Fisioterapia · Razonamiento", desc:"Tutor socrático de razonamiento clínico: hipótesis, cribado de banderas rojas, hallazgos literales del caso y rúbrica final.", tit:"Grado en Fisioterapia", comp:"Razonamiento clínico · Banderas rojas · Autoevaluación", evid:EV_ES },
+    en:{ sub:"Physiotherapy · Reasoning", desc:"Socratic clinical-reasoning tutor: hypotheses, red-flag screening, literal case findings and a final rubric.", tit:"Degree in Physiotherapy", comp:"Clinical reasoning · Red-flag screening · Self-assessment", evid:EV_EN } },
+
+  // ── SIMULACIÓN · PODOLOGÍA ────────────────────────
+  { cat:"sim", icon:"ti-shoe", title:"Casos Podología AI", url:"https://fborrasumh.github.io/casospodo_ai/", doi:"10.5281/zenodo.21423335",
+    es:{ sub:"Podología", desc:"Casos clínicos podológicos interactivos con enfoque en biomecánica y tratamientos.", tit:"Grado en Podología", comp:"Biomecánica · Diagnóstico y tratamiento podológico", evid:EV_ES },
+    en:{ sub:"Podiatry", desc:"Interactive podiatric clinical cases focused on biomechanics and treatment.", tit:"Degree in Podiatry", comp:"Biomechanics · Podiatric diagnosis and treatment", evid:EV_EN } },
+  { cat:"sim", icon:"ti-bandage", title:"Pie Diabético AI", url:"https://fborrasumh.github.io/piediabetico_ai/", doi:"10.5281/zenodo.21423337",
+    es:{ sub:"Podología", desc:"Simulador avanzado de pie diabético para prevención, valoración y manejo de complicaciones.", tit:"Grado en Podología · Enfermería", comp:"Pie diabético · Prevención · Manejo de complicaciones", evid:EV_ES },
+    en:{ sub:"Podiatry", desc:"Advanced diabetic-foot simulator for prevention, assessment and management of complications.", tit:"Podiatry · Nursing", comp:"Diabetic foot · Prevention · Complication management", evid:EV_EN } },
+
+  // ── SIMULACIÓN · TERAPIA OCUPACIONAL ──────────────
+  { cat:"sim", icon:"ti-accessible", title:"Casos Terapia Ocupacional AI", url:"https://fborrasumh.github.io/casosto_ai/", doi:"10.5281/zenodo.21423339",
+    es:{ sub:"Terapia Ocupacional", desc:"Simulador de casos clínicos de Terapia Ocupacional para entrenamiento en diagnóstico y plan de tratamiento.", tit:"Grado en Terapia Ocupacional", comp:"Valoración ocupacional · Plan de intervención", evid:EV_ES },
+    en:{ sub:"Occupational Therapy", desc:"Occupational-therapy case simulator for training in diagnosis and treatment planning.", tit:"Degree in Occupational Therapy", comp:"Occupational assessment · Intervention planning", evid:EV_EN } },
+  { cat:"sim", icon:"ti-puzzle", title:"Modelos TO AI", url:"https://fborrasumh.github.io/modelosto_ai/", doi:"10.5281/zenodo.21423341",
+    es:{ sub:"Terapia Ocupacional · Modelos", desc:"Entrenador de aplicación de modelos de TO (MOHO, CMOP-E, Kawa…) sobre casos: elección justificada, valoración y plan.", tit:"Grado en Terapia Ocupacional", comp:"Modelos teóricos de TO · Justificación clínica", evid:EV_ES },
+    en:{ sub:"Occupational Therapy · Models", desc:"Trainer for applying OT models (MOHO, CMOP-E, Kawa…) to cases: justified choice, assessment and plan.", tit:"Degree in Occupational Therapy", comp:"OT theoretical models · Clinical justification", evid:EV_EN } },
+
+  // ── SIMULACIÓN · ENFERMERÍA ───────────────────────
+  { cat:"sim", icon:"ti-heart-handshake", title:"Plan de Cuidados AI", url:"https://fborrasumh.github.io/plancuidados_ai/", doi:"10.5281/zenodo.21423343",
+    es:{ sub:"Enfermería", desc:"Generador y evaluador inteligente de planes de cuidados NANDA-NOC-NIC con razonamiento clínico.", tit:"Grado en Enfermería", comp:"NANDA-NOC-NIC · Razonamiento enfermero", evid:EV_ES },
+    en:{ sub:"Nursing", desc:"Intelligent generator and grader of NANDA-NOC-NIC care plans with clinical reasoning.", tit:"Degree in Nursing", comp:"NANDA-NOC-NIC · Nursing reasoning", evid:EV_EN } },
+  { cat:"sim", icon:"ti-nurse", title:"Casos EIR AI", url:"https://fborrasumh.github.io/casoseir_ai/", doi:"10.5281/zenodo.21423345",
+    es:{ sub:"Enfermería · Preparación EIR", desc:"Casos clínicos específicos para el examen EIR de Enfermería con enfoque en cuidados y gestión.", tit:"Grado en Enfermería", comp:"Cuidados · Gestión · Preparación EIR", evid:EV_ES },
+    en:{ sub:"Nursing · EIR exam prep", desc:"Clinical cases tailored to the Spanish EIR nursing exam, focused on care and management.", tit:"Degree in Nursing", comp:"Care · Management · EIR exam preparation", evid:EV_EN } },
+  { cat:"sim", icon:"ti-calculator", title:"CalcDosis AI", url:"https://fborrasumh.github.io/calcdosis_ai/", doi:"10.5281/zenodo.21423347",
+    es:{ sub:"Enfermería · Farmacología", desc:"Entrenador de cálculo de dosis, diluciones y ritmos de perfusión con corrección determinista y casos generados por IA.", tit:"Grado en Enfermería", comp:"Cálculo de dosis · Diluciones · Seguridad farmacológica", evid:EV_ES },
+    en:{ sub:"Nursing · Pharmacology", desc:"Trainer for dose calculation, dilutions and infusion rates with deterministic checking and AI-generated cases.", tit:"Degree in Nursing", comp:"Dose calculation · Dilutions · Medication safety", evid:EV_EN } },
+
+  // ── SIMULACIÓN · TODAS LAS TITULACIONES ───────────
+  { cat:"sim", icon:"ti-user-heart", title:"Paciente Virtual AI", url:"https://fborrasumh.github.io/pacientevirtual_ai/", doi:"10.5281/zenodo.21423351",
+    es:{ sub:"Todas · Entrenamiento clínico", desc:"Simulador de paciente virtual completo con historia clínica, síntomas y respuestas realistas.", tit:"Todas las titulaciones de CC. de la Salud", comp:"Entrevista clínica · Exploración · Empatía", evid:EV_ES },
+    en:{ sub:"All · Clinical training", desc:"Full virtual-patient simulator with clinical history, symptoms and realistic responses.", tit:"All Health Sciences degrees", comp:"Clinical interview · Examination · Empathy", evid:EV_EN } },
+  { cat:"sim", icon:"ti-stethoscope", title:"Anamnesis AI", url:"https://fborrasumh.github.io/anamnesis_ai/", doi:"10.5281/zenodo.21423353",
+    es:{ sub:"Todas · Entrenamiento clínico", desc:"Simulación de paciente para entrenar el proceso de anamnesis con IA y soporte multilingüe.", tit:"Todas las titulaciones de CC. de la Salud", comp:"Anamnesis · Comunicación clínica · Idiomas", evid:EV_ES },
+    en:{ sub:"All · Clinical training", desc:"Patient simulation for training the history-taking process, with multilingual support.", tit:"All Health Sciences degrees", comp:"History taking · Clinical communication · Languages", evid:EV_EN } },
+  { cat:"sim", icon:"ti-clipboard-text", title:"Casos Clínicos AI", url:"https://fborrasumh.github.io/casos_ai/", doi:"10.5281/zenodo.21423355",
+    es:{ sub:"Todas · Entrenamiento por casos", desc:"Biblioteca inteligente de casos clínicos interactivos con diferentes niveles de dificultad y feedback.", tit:"Todas las titulaciones de CC. de la Salud", comp:"Razonamiento clínico · Aprendizaje por casos", evid:EV_ES },
+    en:{ sub:"All · Case-based training", desc:"Smart library of interactive clinical cases with difficulty levels and feedback.", tit:"All Health Sciences degrees", comp:"Clinical reasoning · Case-based learning", evid:EV_EN } },
+  { cat:"sim", icon:"ti-checklist", title:"ECOE AI", url:"https://fborrasumh.github.io/ecoe_ai/", doi:"10.5281/zenodo.21423357",
+    es:{ sub:"Todas · Evaluación competencial", desc:"Simulador de estaciones ECOE con evaluación estructurada, checklists y feedback en tiempo real.", tit:"Todas las titulaciones de CC. de la Salud", comp:"Competencias clínicas · Evaluación estructurada (ECOE)", evid:EV_ES },
+    en:{ sub:"All · Competency assessment", desc:"OSCE-station simulator with structured assessment, checklists and real-time feedback.", tit:"All Health Sciences degrees", comp:"Clinical competencies · Structured assessment (OSCE)", evid:EV_EN } },
+  { cat:"sim", icon:"ti-message-heart", title:"Malas Noticias AI", url:"https://fborrasumh.github.io/malasnoticias_ai/", doi:"10.5281/zenodo.21423361",
+    es:{ sub:"Todas · Comunicación clínica", desc:"Simulador de comunicación de malas noticias con paciente emocional realista, modo manos libres y evaluación SPIKES.", tit:"Todas las titulaciones de CC. de la Salud", comp:"Protocolo SPIKES · Comunicación difícil · Empatía", evid:EV_ES },
+    en:{ sub:"All · Clinical communication", desc:"Breaking-bad-news simulator with a realistic emotional patient, hands-free mode and SPIKES-based evaluation.", tit:"All Health Sciences degrees", comp:"SPIKES protocol · Difficult conversations · Empathy", evid:EV_EN } },
+  { cat:"sim", icon:"ti-timeline", title:"Paciente Crónico AI", url:"https://fborrasumh.github.io/pacientecronico_ai/", doi:"10.5281/zenodo.21423365",
+    es:{ sub:"Todas · Seguimiento longitudinal", desc:"Paciente crónico que evoluciona entre consultas según tus decisiones: parámetros, adherencia, eventos y gráficas de evolución.", tit:"Todas las titulaciones de CC. de la Salud", comp:"Cronicidad · Seguimiento longitudinal · Adherencia", evid:EV_ES },
+    en:{ sub:"All · Longitudinal follow-up", desc:"A chronic patient who evolves between visits according to your decisions: parameters, adherence, events and trend charts.", tit:"All Health Sciences degrees", comp:"Chronic care · Longitudinal follow-up · Adherence", evid:EV_EN } },
+  { cat:"sim", icon:"ti-arrows-exchange", title:"SBAR AI", url:"https://fborrasumh.github.io/sbar_ai/", doi:"10.5281/zenodo.21423367",
+    es:{ sub:"Todas · Comunicación clínica", desc:"Entrenador de traspaso de pacientes con metodología SBAR: escenarios generados, transmisión estructurada y rúbrica de evaluación.", tit:"Todas las titulaciones de CC. de la Salud", comp:"Traspaso SBAR · Seguridad del paciente · Comunicación interprofesional", evid:EV_ES },
+    en:{ sub:"All · Clinical communication", desc:"Patient-handover trainer using SBAR: generated scenarios, structured handover and an evaluation rubric.", tit:"All Health Sciences degrees", comp:"SBAR handover · Patient safety · Interprofessional communication", evid:EV_EN } },
+  { cat:"sim", icon:"ti-urgent", title:"Urgencias AI", url:"https://fborrasumh.github.io/urgencias_ai/", doi:"10.5281/zenodo.21423369",
+    es:{ sub:"Medicina/Enfermería · Presión temporal", desc:"Simulador de urgencias en tiempo real: triaje Manchester, monitor de constantes con deterioro determinista, NEWS2 en vivo y evaluación de tiempos hasta las intervenciones críticas.", tit:"Medicina · Enfermería", comp:"Triaje Manchester · NEWS2 · Decisión bajo presión", evid:EV_ES },
+    en:{ sub:"Medicine/Nursing · Time pressure", desc:"Real-time emergency simulator: Manchester triage, vitals monitor with deterministic deterioration, live NEWS2 and time-to-critical-intervention scoring.", tit:"Medicine · Nursing", comp:"Manchester triage · NEWS2 · Decisions under pressure", evid:EV_EN } },
+  { cat:"sim", icon:"ti-shield-check", title:"Seguridad Paciente AI", url:"https://fborrasumh.github.io/seguridadpaciente_ai/", doi:"10.5281/zenodo.21423371",
+    es:{ sub:"Todas · Seguridad clínica", desc:"Expediente clínico con errores latentes incrustados: detección con métrica determinista, análisis causa-raíz (Protocolo de Londres) y barreras de mejora.", tit:"Todas las titulaciones de CC. de la Salud", comp:"Seguridad del paciente · Análisis causa-raíz · Cultura de seguridad", evid:EV_ES },
+    en:{ sub:"All · Clinical safety", desc:"A clinical record with embedded latent errors: deterministic detection metrics, root-cause analysis (London Protocol) and improvement barriers.", tit:"All Health Sciences degrees", comp:"Patient safety · Root-cause analysis · Safety culture", evid:EV_EN } },
+  { cat:"sim", icon:"ti-scale", title:"Ética Clínica AI", url:"https://fborrasumh.github.io/eticaclinica_ai/", doi:"10.5281/zenodo.21423373",
+    es:{ sub:"Todas · Deliberación ética", desc:"Dilemas éticos con el método deliberativo de Diego Gracia: entrevista a las partes, principios en conflicto, cursos intermedios, pruebas de consistencia y Ley 41/2002.", tit:"Todas las titulaciones de CC. de la Salud", comp:"Deliberación ética · Bioética · Marco legal (Ley 41/2002)", evid:EV_ES },
+    en:{ sub:"All · Ethical deliberation", desc:"Ethical dilemmas using Diego Gracia's deliberative method: interviewing the parties, conflicting principles, intermediate courses, consistency tests and Spanish Law 41/2002.", tit:"All Health Sciences degrees", comp:"Ethical deliberation · Bioethics · Legal framework", evid:EV_EN } },
+  { cat:"sim", icon:"ti-pill", title:"Prescripción Segura AI", url:"https://fborrasumh.github.io/prescripcionsegura_ai/", doi:"10.5281/zenodo.21423377",
+    es:{ sub:"Med/Farmacia/Enf · Farmacología clínica", desc:"Revisión de medicación de un paciente polimedicado (interacciones, STOPP, ajuste renal con Cockcroft-Gault en cliente) y nueva prescripción validada de forma determinista.", tit:"Medicina · Farmacia · Enfermería", comp:"Conciliación de medicación · Criterios STOPP · Ajuste renal", evid:EV_ES },
+    en:{ sub:"Med/Pharmacy/Nursing · Clinical pharmacology", desc:"Medication review of a polymedicated patient (interactions, STOPP, client-side Cockcroft-Gault renal adjustment) and a deterministically validated new prescription.", tit:"Medicine · Pharmacy · Nursing", comp:"Medication reconciliation · STOPP criteria · Renal adjustment", evid:EV_EN } },
+  { cat:"sim", icon:"ti-message-2-heart", title:"Entrevista Motivacional AI", url:"https://fborrasumh.github.io/entrevistamotivacional_ai/", doi:"10.5281/zenodo.21423379",
+    es:{ sub:"Todas · Comunicación clínica", desc:"Paciente ambivalente cuya disposición al cambio evoluciona con tus conductas OARS: codificación MITI, índices deterministas, curva de disposición y evaluación del espíritu EM.", tit:"Todas las titulaciones de CC. de la Salud", comp:"Entrevista motivacional · Conductas OARS · Codificación MITI", evid:EV_ES },
+    en:{ sub:"All · Clinical communication", desc:"An ambivalent patient whose readiness to change evolves with your OARS behaviours: MITI coding, deterministic indices, readiness curve and MI-spirit evaluation.", tit:"All Health Sciences degrees", comp:"Motivational interviewing · OARS behaviours · MITI coding", evid:EV_EN } },
+
   // ── UTILIDADES ────────────────────────────────────
-  { cat:"uti", icon:"ti-notes",              title:"ActaAI",           sub:"Generador de Actas",           desc:"Genera actas de reuniones y sesiones académicas o institucionales de forma automática a partir de notas o audio.", url:"https://fborrasumh.github.io/acta_ai/" },
-  { cat:"uti", icon:"ti-bulb",               title:"Tormenta de Ideas",sub:"Ideación Multiagente",         desc:"Generador de ideas innovadoras con sistema multiagente IA, soporte trilingüe y exportación a Word.", url:"https://fborrasumh.github.io/tormenta_ideas/" },
-  { cat:"uti", icon:"ti-presentation",       title:"Presentaciones HTML",sub:"Generador de Slides",       desc:"Crea presentaciones web completas a partir de un tema o texto, con varios temas visuales.", url:"https://fborrasumh.github.io/generadorhtml/" },
-  { cat:"uti", icon:"ti-arrows-shuffle",     title:"Swarm Loop",       sub:"Mejora Continua Autónoma",     desc:"Enjambre de agentes autoaprendiz para la mejora iterativa autónoma de contenidos.", url:"https://fborrasumh.github.io/swarmloop/" },
-  { cat:"uti", icon:"ti-binoculars",         title:"Invigilando",      sub:"Vigilancia Competitiva",       desc:"Informes de vigilancia competitiva empresarial generados con IA. Ideal para grupos con transferencia.", url:"https://fborrasumh.github.io/invigilandov2/" },
-  { cat:"uti", icon:"ti-language",           title:"Traductor Word",   sub:"Traducción .docx",             desc:"Traduce carpetas de documentos .docx al inglés preservando el formato original.", url:"https://fborrasumh.github.io/traductor_word/" },
-  { cat:"uti", icon:"ti-file-code",          title:"Conversor Markdown",sub:"Optimización de Tokens",     desc:"Convierte documentos a Markdown para reducir el uso de tokens al trabajar con modelos de IA.", url:"https://fborrasumh.github.io/conversor/" },
+  { cat:"uti", icon:"ti-notes", title:"ActaAI", url:"https://fborrasumh.github.io/acta_ai/", doi:"10.5281/zenodo.21423381",
+    es:{ sub:"Generador de Actas", desc:"Genera actas de reuniones y sesiones académicas o institucionales de forma automática a partir de notas o audio.", tit:"Gestión académica", comp:"Documentación institucional · Síntesis", evid:EV_ES },
+    en:{ sub:"Minutes generator", desc:"Automatically generates minutes of academic or institutional meetings from notes or audio.", tit:"Academic management", comp:"Institutional documentation · Summarising", evid:EV_EN } },
+  { cat:"uti", icon:"ti-bulb", title:"Tormenta de Ideas", url:"https://fborrasumh.github.io/tormenta_ideas/", doi:"10.5281/zenodo.21423383",
+    es:{ sub:"Ideación Multiagente", desc:"Generador de ideas innovadoras con sistema multiagente IA, soporte trilingüe y exportación a Word.", tit:"Todas las áreas", comp:"Ideación · Creatividad estructurada", evid:EV_ES },
+    en:{ sub:"Multi-agent ideation", desc:"Innovative idea generator with a multi-agent AI system, trilingual support and Word export.", tit:"All fields", comp:"Ideation · Structured creativity", evid:EV_EN } },
+  { cat:"uti", icon:"ti-presentation", title:"Presentaciones HTML", url:"https://fborrasumh.github.io/generadorhtml/", doi:"10.5281/zenodo.21423385",
+    es:{ sub:"Generador de Slides", desc:"Crea presentaciones web completas a partir de un tema o texto, con varios temas visuales.", tit:"Todas las áreas", comp:"Comunicación visual · Presentaciones", evid:EV_ES },
+    en:{ sub:"Slide generator", desc:"Creates complete web slide decks from a topic or text, with several visual themes.", tit:"All fields", comp:"Visual communication · Presentations", evid:EV_EN } },
+  { cat:"uti", icon:"ti-arrows-shuffle", title:"Swarm Loop", url:"https://fborrasumh.github.io/swarmloop/", doi:"10.5281/zenodo.21423387",
+    es:{ sub:"Mejora Continua Autónoma", desc:"Enjambre de agentes autoaprendiz para la mejora iterativa autónoma de contenidos.", tit:"Todas las áreas", comp:"Sistemas multiagente · Mejora continua", evid:EV_ES },
+    en:{ sub:"Autonomous continuous improvement", desc:"Self-learning agent swarm for autonomous iterative content improvement.", tit:"All fields", comp:"Multi-agent systems · Continuous improvement", evid:EV_EN } },
+  { cat:"uti", icon:"ti-binoculars", title:"Invigilando", url:"https://fborrasumh.github.io/invigilandov2/", doi:"10.5281/zenodo.21423389",
+    es:{ sub:"Vigilancia Competitiva", desc:"Informes de vigilancia competitiva empresarial generados con IA. Ideal para grupos con transferencia.", tit:"Transferencia · Empresa", comp:"Vigilancia tecnológica · Inteligencia competitiva", evid:EV_ES },
+    en:{ sub:"Competitive intelligence", desc:"AI-generated competitive-intelligence reports. Ideal for research groups with transfer activity.", tit:"Knowledge transfer · Business", comp:"Technology watch · Competitive intelligence", evid:EV_EN } },
+  { cat:"uti", icon:"ti-language", title:"Traductor Word", url:"https://fborrasumh.github.io/traductor_word/", doi:"10.5281/zenodo.21423391",
+    es:{ sub:"Traducción .docx", desc:"Traduce carpetas de documentos .docx al inglés preservando el formato original.", tit:"Todas las áreas", comp:"Traducción académica · Preservación de formato", evid:EV_ES },
+    en:{ sub:".docx translation", desc:"Translates folders of .docx documents into English while preserving the original formatting.", tit:"All fields", comp:"Academic translation · Format preservation", evid:EV_EN } },
+  { cat:"uti", icon:"ti-file-code", title:"Conversor Markdown", url:"https://fborrasumh.github.io/conversor/", doi:"10.5281/zenodo.21423393",
+    es:{ sub:"Optimización de Tokens", desc:"Convierte documentos a Markdown para reducir el uso de tokens al trabajar con modelos de IA.", tit:"Todas las áreas", comp:"Preparación de documentos para LLMs", evid:EV_ES },
+    en:{ sub:"Token optimisation", desc:"Converts documents to Markdown to reduce token usage when working with AI models.", tit:"All fields", comp:"Document preparation for LLMs", evid:EV_EN } },
 ];
 
-const catLabel = { doc:"Docencia", eva:"Evaluación", inv:"Investigación", sim: "Simulación", uti:"Utilidades" };
+/* ── LÓGICA ─────────────────────────────────────────── */
+let lang = localStorage.getItem("ia_lang") || (new URLSearchParams(location.search).get("lang")) || "es";
+if (lang !== "es" && lang !== "en") lang = "es";
 let activeCat = "all";
+const openFichas = new Set();
+
+const catLabel = {
+  es: { doc:"Docencia", eva:"Evaluación", inv:"Investigación", sim:"Simulación", uti:"Utilidades" },
+  en: { doc:"Teaching", eva:"Assessment", inv:"Research", sim:"Simulation", uti:"Utilities" }
+};
+
+function t(key) { return ui[lang][key]; }
+
+function setLang(l) {
+  lang = l;
+  localStorage.setItem("ia_lang", l);
+  applyLang();
+  render();
+}
+
+function applyLang() {
+  document.documentElement.lang = lang;
+  document.getElementById("btn-es").classList.toggle("active", lang === "es");
+  document.getElementById("btn-en").classList.toggle("active", lang === "en");
+  document.getElementById("h1").innerHTML = t("h1");
+  document.getElementById("q").placeholder = t("search");
+  document.querySelectorAll("[data-i18n]").forEach(el => {
+    const k = el.getAttribute("data-i18n");
+    const map = { eyebrow:"eyebrow", sub:"sub", statTools:"statTools", statCats:"statCats", statBrowser:"statBrowser",
+      all:"all", catDoc:"catDoc", catEva:"catEva", catInv:"catInv", catSim:"catSim", catUti:"catUti",
+      thTool:"thTool", thDesc:"thDesc", thCat:"thCat", empty:"empty", footDev:"footDev", footKey:"footKey" };
+    if (map[k]) el.textContent = t(map[k]);
+  });
+}
 
 function setFilter(cat, el) {
   activeCat = cat;
-  document.querySelectorAll(".pill").forEach(p => {
-    p.classList.remove("active","doc","eva","inv","sim","uti");
-  });
+  document.querySelectorAll(".pill").forEach(p => p.classList.remove("active","doc","eva","inv","sim","uti"));
   el.classList.add("active");
   if (cat !== "all") el.classList.add(cat);
   render();
 }
 
+function citeText(a) {
+  const year = new Date().getFullYear();
+  const loc = a.doi ? "https://doi.org/" + a.doi : a.url;
+  return "Borrás Rocher, F. (" + year + "). " + a.title + " [" + t("software") + "]. Universidad Miguel Hernández de Elche. " + loc;
+}
+
+function toggleFicha(i, btn) {
+  const row = document.getElementById("detail-" + i);
+  if (!row) return;
+  const open = row.style.display !== "none";
+  row.style.display = open ? "none" : "table-row";
+  btn.classList.toggle("open", !open);
+  const key = apps[i].url;
+  if (open) openFichas.delete(key); else openFichas.add(key);
+}
+
+function copyCite(i, btn) {
+  navigator.clipboard.writeText(citeText(apps[i])).then(() => {
+    const prev = btn.textContent;
+    btn.textContent = t("copied");
+    setTimeout(() => { btn.textContent = prev; }, 1400);
+  });
+}
+
+function esc(s) { return (s || "").replace(/&/g,"&amp;").replace(/</g,"&lt;"); }
+
 function render() {
   const q = (document.getElementById("q").value || "").toLowerCase();
-  const filtered = apps.filter(a => {
+  const rows = [];
+  let visible = 0;
+
+  apps.forEach((a, i) => {
+    const L = a[lang];
+    const hay = (a.title + " " + L.sub + " " + L.desc + " " + L.tit + " " + L.comp).toLowerCase();
     const mc = activeCat === "all" || a.cat === activeCat;
-    const mq = !q || a.title.toLowerCase().includes(q) || a.sub.toLowerCase().includes(q) || a.desc.toLowerCase().includes(q);
-    return mc && mq;
+    const mq = !q || hay.includes(q);
+    if (!(mc && mq)) return;
+    visible++;
+
+    const doiHtml = a.doi
+      ? '<a class="doi-ok" href="https://doi.org/' + a.doi + '" target="_blank" rel="noopener" onclick="event.stopPropagation()"><i class="ti ti-rosette-discount-check"></i> DOI ' + a.doi + '</a>'
+      : '<span class="doi-pending"><i class="ti ti-clock"></i> ' + t("doiPending") + '</span>';
+
+    const isOpen = openFichas.has(a.url);
+
+    rows.push(
+      '<tr class="row" onclick="window.open(\'' + a.url + '\',\'_blank\')">' +
+        '<td><div class="icon-box ' + a.cat + '"><i class="ti ' + a.icon + '"></i></div></td>' +
+        '<td class="title-cell">' + esc(a.title) + '<div class="title-sub">' + esc(L.sub) + '</div></td>' +
+        '<td class="desc-cell"><span>' + esc(L.desc) + '</span></td>' +
+        '<td><span class="badge ' + a.cat + '">' + catLabel[lang][a.cat] + '</span></td>' +
+        '<td class="link-td">' +
+          '<button class="' + (isOpen ? "open" : "") + '" title="' + t("showFicha") + '" aria-label="' + t("showFicha") + '" onclick="event.stopPropagation(); toggleFicha(' + i + ', this)"><i class="ti ti-chevron-down"></i></button>' +
+          '<a href="' + a.url + '" target="_blank" rel="noopener" title="' + t("openApp") + ' ' + esc(a.title) + '" onclick="event.stopPropagation()"><i class="ti ti-external-link"></i></a>' +
+        '</td>' +
+      '</tr>' +
+      '<tr class="detail" id="detail-' + i + '" style="display:' + (isOpen ? "table-row" : "none") + '" onclick="event.stopPropagation()">' +
+        '<td colspan="5"><div class="ficha">' +
+          '<div class="f-block"><h4>' + t("fTit") + '</h4><p>' + esc(L.tit) + '</p></div>' +
+          '<div class="f-block"><h4>' + t("fComp") + '</h4><p>' + esc(L.comp) + '</p></div>' +
+          '<div class="f-block"><h4>' + t("fEvid") + '</h4><p>' + esc(L.evid) + '</p></div>' +
+          '<div class="f-block"><h4>' + t("fCite") + '</h4>' + doiHtml +
+            '<div class="cite-box">' + esc(citeText(a)) + '</div>' +
+            '<button class="copy-cite" onclick="copyCite(' + i + ', this)">' + t("copyCite") + '</button>' +
+          '</div>' +
+        '</div></td>' +
+      '</tr>'
+    );
   });
 
   document.getElementById("cnt-all").textContent = apps.length;
   document.getElementById("stat-total").textContent = apps.length;
-  document.getElementById("empty").style.display = filtered.length ? "none" : "block";
-
-  document.getElementById("tbody").innerHTML = filtered.map(a => `
-    <tr class="row" onclick="window.open('${a.url}','_blank')">
-      <td><div class="icon-box ${a.cat}"><i class="ti ${a.icon}"></i></div></td>
-      <td class="title-cell">
-        ${a.title}
-        <div class="title-sub">${a.sub}</div>
-      </td>
-      <td class="desc-cell"><span>${a.desc}</span></td>
-      <td><span class="badge ${a.cat}">${catLabel[a.cat]}</span></td>
-      <td class="link-td">
-        <a href="${a.url}" target="_blank" onclick="event.stopPropagation()" title="Abrir ${a.title}">
-          <i class="ti ti-external-link"></i>
-        </a>
-      </td>
-    </tr>
-  `).join("");
+  document.getElementById("empty").style.display = visible ? "none" : "block";
+  document.getElementById("tbody").innerHTML = rows.join("");
 }
 
+applyLang();
 render();
 </script>
 </body>
