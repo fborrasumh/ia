@@ -571,9 +571,16 @@ const apps = [
   { cat:"inv", icon:"ti-refresh-dot", title:"Autoresearch2", url:"https://fborrasumh.github.io/autoresearch2/", doi:"10.5281/zenodo.21423305",
     es:{ sub:"Mejorador Iterativo v2", desc:"Iterador de documentos que mejora solo: rúbrica como métrica, parches auditables y tres puertas contra el ruido.", tit:"Investigación · Todas las áreas", comp:"Mejora autónoma · Parches auditables · Control de calidad", evid:EV_ES },
     en:{ sub:"Iterative improver v2", desc:"Self-improving document iterator: rubric as metric, auditable patches and a three-gate defence against noise.", tit:"Research · All fields", comp:"Autonomous improvement · Auditable patches · Quality gates", evid:EV_EN } },
+   { cat:"inv", icon:"ti-hierarchy", title:"AutoResearchGraph", url:"https://fborrasumh.github.io/autoresearchgraph/", doi:"10.5281/zenodo.21627938",
+    es:{ sub:"Mejora iterativa de documentos como DAG de commits", desc:"Aplicación web de un solo fichero que mejora documentos de forma autónoma. Adapta las ideas de karpathy/autoresearch (loop de experimentación con métrica, conservar/revertir) a un DAG de commits: cada experimento es un nodo, se ramifica desde cualquier estado retenido y los fallos se conservan como evidencia. Incluye rúbrica configurable con criterios ocultos anti-Goodhart, verificador determinista de restricciones, evaluación por pares a ciegas y grafo de conocimiento como grounding.", tit:"", comp:"", evid:"Pendiente de registro sistemático de uso." },
+    en:{ sub:"Iterative document improvement as a commit DAG", desc:"Single-file web app for autonomous document improvement, adapting karpathy/autoresearch to a commit DAG where each experiment is a node and failed attempts are kept as evidence.", tit:"", comp:"", evid:"Systematic usage records pending." } },
+
+  
   { cat:"inv", icon:"ti-robot", title:"Auto Research Bot", url:"https://fborrasumh.github.io/autoresearchbot/", doi:"10.5281/zenodo.21423309",
     es:{ sub:"Bot de Investigación", desc:"Bot conversacional de apoyo al proceso investigador.", tit:"Investigación · Todas las áreas", comp:"Asistencia metodológica conversacional", evid:EV_ES },
     en:{ sub:"Research bot", desc:"Conversational bot supporting the research workflow.", tit:"Research · All fields", comp:"Conversational methodological support", evid:EV_EN } },
+  
+  
   { cat:"inv", icon:"ti-database", title:"Contestador RAG", url:"https://fborrasumh.github.io/contestador_rag/", doi:"10.5281/zenodo.21423313",
     es:{ sub:"Preguntas sobre Documentos", desc:"Sube documentos y hazles preguntas en lenguaje natural con Recuperación Aumentada por Generación.", tit:"Investigación · Docencia", comp:"Interrogación documental · RAG", evid:EV_ES },
     en:{ sub:"Ask your documents", desc:"Upload documents and query them in natural language with Retrieval-Augmented Generation.", tit:"Research · Teaching", comp:"Document querying · RAG", evid:EV_EN } },
@@ -700,10 +707,7 @@ const apps = [
 
   
  
-  { cat:"inv", icon:"ti-hierarchy", title:"AutoResearchGraph", url:"https://fborrasumh.github.io/autoresearchgraph/", doi:"10.5281/zenodo.21627938",
-    es:{ sub:"Mejora iterativa de documentos como DAG de commits", desc:"Aplicación web de un solo fichero que mejora documentos de forma autónoma. Adapta las ideas de karpathy/autoresearch (loop de experimentación con métrica, conservar/revertir) a un DAG de commits: cada experimento es un nodo, se ramifica desde cualquier estado retenido y los fallos se conservan como evidencia. Incluye rúbrica configurable con criterios ocultos anti-Goodhart, verificador determinista de restricciones, evaluación por pares a ciegas y grafo de conocimiento como grounding.", tit:"", comp:"", evid:"Pendiente de registro sistemático de uso." },
-    en:{ sub:"Iterative document improvement as a commit DAG", desc:"Single-file web app for autonomous document improvement, adapting karpathy/autoresearch to a commit DAG where each experiment is a node and failed attempts are kept as evidence.", tit:"", comp:"", evid:"Systematic usage records pending." } },
-
+ 
 
 ];
 
