@@ -211,12 +211,15 @@ def insert_app_into_index(html, app):
     """Inserta un objeto de app nuevo justo antes del cierre del array `apps`."""
     ev_es = "Pendiente de registro sistemático de uso."
     ev_en = "Systematic usage records pending."
+    ev_pt = "Registro sistemático de uso pendente."
     obj = (f'  {{ cat:"{app["cat"]}", icon:"{app["icon"]}", title:"{app["title"]}", '
            f'url:"{app["url"]}", doi:"",\n'
            f'    es:{{ sub:"{app["sub_es"]}", desc:"{app["desc_es"]}", '
            f'tit:"{app.get("tit_es","")}", comp:"{app.get("comp_es","")}", evid:"{ev_es}" }},\n'
            f'    en:{{ sub:"{app["sub_en"]}", desc:"{app["desc_en"]}", '
-           f'tit:"{app.get("tit_en","")}", comp:"{app.get("comp_en","")}", evid:"{ev_en}" }} }},\n')
+           f'tit:"{app.get("tit_en","")}", comp:"{app.get("comp_en","")}", evid:"{ev_en}" }},\n'
+           f'    pt:{{ sub:"{app["sub_pt"]}", desc:"{app["desc_pt"]}", '
+           f'tit:"{app.get("tit_pt","")}", comp:"{app.get("comp_pt","")}", evid:"{ev_pt}" }} }},\n')
     # el array termina en "];"
     m = re.search(r'\n\];', html)
     if not m:
@@ -246,8 +249,10 @@ def main():
     ap.add_argument("--icon", default="ti-app-window")
     ap.add_argument("--sub-es"); ap.add_argument("--desc-es")
     ap.add_argument("--sub-en"); ap.add_argument("--desc-en")
+    ap.add_argument("--sub-pt"); ap.add_argument("--desc-pt")
     ap.add_argument("--tit-es", default=""); ap.add_argument("--comp-es", default="")
     ap.add_argument("--tit-en", default=""); ap.add_argument("--comp-en", default="")
+    ap.add_argument("--tit-pt", default=""); ap.add_argument("--comp-pt", default="")
     args = ap.parse_args()
 
     base = "https://sandbox.zenodo.org" if args.sandbox else "https://zenodo.org"
@@ -282,7 +287,8 @@ def main():
         need_insert = False
     else:
         # app nueva: exige metadatos mínimos
-        missing = [f for f in ("cat", "title", "sub_es", "desc_es", "sub_en", "desc_en")
+        missing = [f for f in ("cat", "title", "sub_es", "desc_es", "sub_en", "desc_en",
+                                "sub_pt", "desc_pt")
                    if not getattr(args, f)]
         if missing:
             sys.exit("La app no está en el índice; faltan metadatos: --"
@@ -335,8 +341,10 @@ def main():
             "cat": cat, "icon": args.icon, "title": title, "url": url,
             "sub_es": args.sub_es, "desc_es": desc_es,
             "sub_en": args.sub_en, "desc_en": desc_en,
+            "sub_pt": args.sub_pt, "desc_pt": args.desc_pt,
             "tit_es": args.tit_es, "comp_es": args.comp_es,
-            "tit_en": args.tit_en, "comp_en": args.comp_en})
+            "tit_en": args.tit_en, "comp_en": args.comp_en,
+            "tit_pt": args.tit_pt, "comp_pt": args.comp_pt})
         print("✓ Ficha nueva insertada en index.html")
     html, ok = patch_index_doi(html, url, concept)
     if not ok:

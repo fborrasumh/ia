@@ -17,7 +17,7 @@ Por cada app, el flujo completo es:
    al repo de la app, para que GitHub muestre el botón *Cite this repository*.
 3. **index.html** — escribe el DOI en la ficha de la app dentro de
    `github.com/fborrasumh/ia/index.html` y hace commit; si la app es nueva, primero
-   inserta su ficha en el array `apps`.
+   inserta su ficha trilingüe (español, inglés y portugués) en el array `apps`.
 
 Todo esto lo hace el script `scripts/publish_app.py`, que es la vía recomendada:
 encapsula el orden correcto, es idempotente por app y limpia los borradores huérfanos
@@ -53,21 +53,28 @@ export ZENODO_TOKEN="..."; export GITHUB_TOKEN="..."
 python3 scripts/publish_app.py --repo nutriquest
 ```
 
-**Caso B · app nueva que aún no está en la web.** Hay que darle los metadatos mínimos;
-el script inserta la ficha en el array `apps` y luego publica:
+**Caso B · app nueva que aún no está en la web.** Hay que darle los metadatos mínimos
+en los tres idiomas de la web (español, inglés y portugués); el script inserta la ficha
+en el array `apps` y luego publica. Si el usuario solo da el texto en español, tradúcelo
+tú al inglés y al portugués de Brasil (el que usa el resto del catálogo) y enséñale las
+traducciones antes de publicar:
 
 ```bash
 python3 scripts/publish_app.py --repo miapp \
   --cat sim --title "Mi App" --icon ti-flask \
   --sub-es "Subtítulo corto" --desc-es "Descripción en español." \
-  --sub-en "Short subtitle" --desc-en "English description."
+  --sub-en "Short subtitle" --desc-en "English description." \
+  --sub-pt "Subtítulo curto" --desc-pt "Descrição em português."
 ```
 
 Las categorías válidas (`--cat`) son: `doc` (Docencia), `eva` (Evaluación),
 `inv` (Investigación), `sim` (Simulación), `uti` (Utilidades). Los iconos son nombres
-Tabler (p. ej. `ti-flask`); ver https://tabler.io/icons. Opcionalmente `--tit-es/-en`
-(titulación) y `--comp-es/-en` (competencias); si se omiten, quedan vacíos y el usuario
+Tabler (p. ej. `ti-flask`); ver https://tabler.io/icons. Opcionalmente `--tit-es/-en/-pt`
+(titulación) y `--comp-es/-en/-pt` (competencias); si se omiten, quedan vacíos y el usuario
 los completa luego.
+
+Si el `scripts/publish_app.py` de la skill no acepta `--sub-pt` (versión antigua), usa el
+de `github.com/fborrasumh/ia/publish_app.py`, que es la versión al día.
 
 **Banderas útiles:**
 
