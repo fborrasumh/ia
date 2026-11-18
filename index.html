@@ -353,6 +353,51 @@ footer a:hover { text-decoration: underline; }
   h1 { font-size: 2rem; }
   .lang-toggle { top: 10px; right: 10px; }
 }
+
+/* CLAVE DE IA Y MODELOS */
+.clave { max-width: 1060px; margin: 0 auto; padding: 0 24px 72px; }
+.clave h2 { font-family: 'Sora', sans-serif; font-size: 1.7rem; font-weight: 800; letter-spacing: -.01em; margin-bottom: 10px; }
+.clave h3 { font-family: 'Sora', sans-serif; font-size: 1.15rem; font-weight: 700; margin-bottom: 10px; }
+.clave p { font-size: 15px; line-height: 1.6; color: #3a3934; margin-bottom: 12px; }
+.clave .lead { font-size: 16px; max-width: 46em; margin-bottom: 28px; }
+.clave a { color: var(--doc); }
+.clave b { color: var(--text); }
+.clave code { background: #efeee9; padding: 1px 6px; border-radius: 4px; font-size: 13px; }
+.clave-bloque { background: var(--surface); border: 0.5px solid var(--border); border-radius: var(--radius); padding: 24px 26px; margin-bottom: 20px; }
+.clave-dos { display: grid; grid-template-columns: minmax(0,1fr) minmax(0,1fr); gap: 20px; margin-bottom: 20px; }
+.clave-dos .clave-bloque { margin-bottom: 0; }
+.clave ul { padding-left: 1.2em; font-size: 15px; line-height: 1.6; color: #3a3934; }
+.clave li { margin-bottom: 6px; }
+.tabs { display: inline-flex; flex-wrap: wrap; gap: 4px; padding: 4px; border: 0.5px solid var(--border-strong); border-radius: 99px; background: var(--bg); margin-bottom: 16px; }
+.tabs button { font: 600 13px/1 'Inter', sans-serif; padding: 9px 14px; border: 0; border-radius: 99px; background: none; color: var(--muted); cursor: pointer; }
+.tabs button[aria-selected="true"], .tabs button[aria-pressed="true"] { background: var(--text); color: #fff; }
+.tabs small { font-weight: 400; opacity: .75; }
+.guia ol { list-style: none; counter-reset: p; }
+.guia li { counter-increment: p; display: grid; grid-template-columns: 34px minmax(0,1fr); gap: 10px; padding: 10px 0; border-bottom: 0.5px solid var(--border); margin: 0; }
+.guia li::before { content: counter(p); width: 26px; height: 26px; border-radius: 50%; border: 1.5px solid var(--doc); color: var(--doc); display: grid; place-items: center; font: 700 12px/1 'Inter', sans-serif; }
+.guia .ir { display: inline-block; margin-top: 14px; font-weight: 600; font-size: 14px; }
+.peldanos { display: grid; grid-template-columns: repeat(4,minmax(0,1fr)); gap: 12px; align-items: end; margin-top: 8px; }
+.peldano { display: flex; flex-direction: column; padding: 18px; border-radius: var(--radius); border: 0.5px solid var(--border); background: var(--bg); }
+.peldano:nth-child(1) { min-height: 200px; }
+.peldano:nth-child(2) { min-height: 230px; background: #eef2fd; border-color: #d5def9; }
+.peldano:nth-child(3) { min-height: 260px; background: #dce5fb; border-color: #c3d1f7; }
+.peldano:nth-child(4) { min-height: 290px; background: var(--doc); border-color: var(--doc); color: #fff; }
+.peldano:nth-child(4) p, .peldano:nth-child(4) small { color: #e6ecff; }
+.peldano h4 { font-family: 'Sora', sans-serif; font-size: 15px; font-weight: 700; margin-bottom: 6px; }
+.peldano p { font-size: 13px; margin: 0; }
+.peldano .precio { margin-top: auto; padding-top: 12px; font: 800 1.5rem/1 'Sora', sans-serif; font-variant-numeric: tabular-nums; }
+.peldano small { display: block; margin-top: 4px; font-size: 11.5px; color: var(--muted); }
+.peldano .ojo { display: block; margin-top: 6px; font-size: 11.5px; font-style: italic; opacity: .85; }
+.escalera-pie { margin: 10px 0 0 !important; font-size: 12.5px !important; color: var(--muted) !important; }
+.clave-tres { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 20px; }
+.clave-tres .clave-bloque { margin-bottom: 0; }
+.clave-tres p { font-size: 14px; margin: 0; }
+@media (max-width: 800px) {
+  .clave-dos, .clave-tres { grid-template-columns: 1fr; }
+  .peldanos { grid-template-columns: repeat(2,minmax(0,1fr)); }
+  .peldano:nth-child(n) { min-height: 0; }
+}
+@media (max-width: 480px) { .peldanos { grid-template-columns: 1fr; } }
 </style>
 </head>
 <body>
@@ -426,6 +471,214 @@ footer a:hover { text-decoration: underline; }
     </div>
   </div>
 </main>
+
+<section class="clave" id="clave" data-lang="es">
+  <h2>La clave de IA, explicada desde cero</h2>
+  <p class="lead">Las apps que usan inteligencia artificial te piden una clave de IA la primera vez. Se consigue en diez minutos y, con un límite de gasto, nunca pagarás más de lo que decidas. Las que indican «Sin IA» en su descripción no la necesitan.</p>
+
+  <div class="clave-dos">
+    <div class="clave-bloque">
+      <h3>¿Qué es una clave de API?</h3>
+      <p>Es una contraseña larga que te da una empresa de inteligencia artificial (OpenAI, Google o Anthropic) para que una aplicación pueda pedirle trabajo a su modelo en tu nombre. Piensa en ella como una tarjeta de prepago: la app la usa para encargar el trabajo y el proveedor te cobra solo lo que gastes, normalmente céntimos.</p>
+      <p>No es lo mismo que una suscripción a ChatGPT o a Claude. Esas cuotas mensuales sirven para chatear en su web y no incluyen el uso por API: la clave se crea y se paga aparte, en la plataforma para desarrolladores de cada empresa.</p>
+    </div>
+    <div class="clave-bloque">
+      <h3>Cómo funcionan las apps</h3>
+      <ul>
+        <li>Todo ocurre en tu navegador: no hay que instalar nada ni crear una cuenta.</li>
+        <li>La app envía tu petición directamente a tu proveedor de IA con tu clave y te muestra el resultado. No pasa por ningún servidor intermedio.</li>
+        <li>La clave se guarda en tu navegador y solo se envía a tu proveedor cuando la app le pide trabajo.</li>
+        <li>Muchas apps aceptan OpenAI, Google Gemini o Anthropic Claude; algunas solo OpenAI. La descripción de cada app lo indica.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="clave-bloque guia">
+    <h3>Cómo conseguir tu clave</h3>
+    <div class="tabs" role="tablist" aria-label="Proveedor de IA">
+      <button role="tab" aria-selected="true" data-tab="openai">OpenAI <small>vale en todas las apps</small></button>
+      <button role="tab" aria-selected="false" data-tab="gemini" tabindex="-1">Google Gemini</button>
+      <button role="tab" aria-selected="false" data-tab="anthropic" tabindex="-1">Anthropic Claude</button>
+    </div>
+    <div role="tabpanel" data-panel="openai">
+      <ol>
+        <li><div>Entra en <a href="https://platform.openai.com" target="_blank" rel="noopener">platform.openai.com</a> y crea una cuenta. Es la plataforma para desarrolladores, distinta de ChatGPT, aunque puedes usar el mismo correo.</div></li>
+        <li><div>En <b>Billing</b>, añade un método de pago y compra un crédito pequeño, por ejemplo 5 €. Es saldo de prepago: cuando se acaba, deja de funcionar sin cobrarte más.</div></li>
+        <li><div>En <b>Limits</b>, fija un límite de gasto mensual bajo. Así controlas lo que puedes gastar como mucho.</div></li>
+        <li><div>En <b>API keys</b>, pulsa <b>Create new secret key</b>. Empieza por <code>sk-</code>. Cópiala en ese momento: no se vuelve a mostrar.</div></li>
+        <li><div>Pégala en la app cuando te la pida.</div></li>
+      </ol>
+      <a class="ir" href="https://platform.openai.com/api-keys" target="_blank" rel="noopener">Abrir la página de claves de OpenAI</a>
+    </div>
+    <div role="tabpanel" data-panel="gemini" hidden>
+      <ol>
+        <li><div>Entra en <a href="https://aistudio.google.com/apikey" target="_blank" rel="noopener">aistudio.google.com</a> con tu cuenta de Google.</div></li>
+        <li><div>Acepta las condiciones y pulsa <b>Create API key</b>. Google ofrece una capa gratuita con límites de uso, suficiente para probar.</div></li>
+        <li><div>Copia la clave (empieza por <code>AIza</code>).</div></li>
+        <li><div>Si la usas mucho, la capa gratuita se queda corta: activa la facturación en Google Cloud y fija un presupuesto con alerta.</div></li>
+        <li><div>Pégala en la app, eligiendo Google Gemini como proveedor.</div></li>
+      </ol>
+      <a class="ir" href="https://aistudio.google.com/apikey" target="_blank" rel="noopener">Abrir Google AI Studio</a>
+    </div>
+    <div role="tabpanel" data-panel="anthropic" hidden>
+      <ol>
+        <li><div>Entra en <a href="https://console.anthropic.com" target="_blank" rel="noopener">console.anthropic.com</a> y crea una cuenta. Es distinta de la suscripción a Claude.</div></li>
+        <li><div>En <b>Billing</b>, compra un crédito pequeño de prepago.</div></li>
+        <li><div>En <b>Limits</b>, fija un límite de gasto mensual.</div></li>
+        <li><div>En <b>API keys</b>, pulsa <b>Create key</b> y cópiala (empieza por <code>sk-ant-</code>).</div></li>
+        <li><div>Pégala en la app, eligiendo Anthropic Claude como proveedor.</div></li>
+      </ol>
+      <a class="ir" href="https://console.anthropic.com/settings/keys" target="_blank" rel="noopener">Abrir la consola de Anthropic</a>
+    </div>
+  </div>
+
+  <div class="clave-bloque">
+    <h3>¿Qué modelo elegir?</h3>
+    <p>Con la misma clave puedes usar varios modelos, de menor a mayor capacidad. Se paga por <b>tokens</b> (un token es más o menos tres cuartos de palabra): los de <b>entrada</b> son lo que la app envía al modelo y los de <b>salida</b>, lo que el modelo escribe. Entre el más barato y el más caro de un mismo proveedor el precio puede multiplicarse por cien, así que empieza por el económico y sube solo si el resultado no te convence.</p>
+    <div class="tabs" role="group" aria-label="Ver modelos de">
+      <button type="button" data-prov="openai" aria-pressed="true">OpenAI</button>
+      <button type="button" data-prov="anthropic" aria-pressed="false">Anthropic Claude</button>
+      <button type="button" data-prov="gemini" aria-pressed="false">Google Gemini</button>
+    </div>
+    <div class="escalera" data-prov="openai">
+      <div class="peldanos">
+        <div class="peldano"><h4>GPT-6 Luna</h4><p>Tareas acotadas y de gran volumen</p><span class="precio">0,10 / 0,50</span><small>USD por millón de tokens, entrada / salida</small></div>
+        <div class="peldano"><h4>GPT-6.1 Terra</h4><p>Uso del ordenador, razonamiento visual y trabajo de oficina</p><span class="precio">1 / 5</span><small>USD por millón de tokens, entrada / salida</small></div>
+        <div class="peldano"><h4>GPT-6.1 Sol</h4><p>Equilibrio entre capacidad y coste para programación y trabajo profesional</p><span class="precio">2 / 10</span><small>USD por millón de tokens, entrada / salida</small></div>
+        <div class="peldano"><h4>GPT-6 Astra</h4><p>El razonamiento y la programación más exigentes</p><span class="precio">10 / 50</span><small>USD por millón de tokens, entrada / salida</small></div>
+      </div>
+      <p class="escalera-pie">Tarifas base de OpenAI, finales de 2026 (fuente: LISDATA).</p>
+    </div>
+    <div class="escalera" data-prov="anthropic" hidden>
+      <div class="peldanos">
+        <div class="peldano"><h4>Claude Haiku 5.5</h4><p>Rápido y económico, para tareas acotadas y de mucho volumen</p><span class="precio">0,10 / 0,50</span><small>USD por millón de tokens, entrada / salida</small><span class="ojo">Con más de 100.000 tokens de entrada por petición sube a 0,50 / 2,50.</span></div>
+        <div class="peldano"><h4>Claude Sonnet 5.5</h4><p>Equilibrio entre capacidad y coste para el trabajo diario</p><span class="precio">2 / 10</span><small>USD por millón de tokens, entrada / salida</small></div>
+        <div class="peldano"><h4>Claude Opus 5.5</h4><p>Razonamiento complejo, programación y tareas largas</p><span class="precio">4 / 20</span><small>USD por millón de tokens, entrada / salida</small></div>
+        <div class="peldano"><h4>Claude Fable 5.1</h4><p>El más capaz disponible al público, para lo más exigente</p><span class="precio">10 / 50</span><small>USD por millón de tokens, entrada / salida</small></div>
+      </div>
+      <p class="escalera-pie">Tarifas base publicadas por Anthropic, consultadas el 18 de noviembre de 2026.</p>
+    </div>
+    <div class="escalera" data-prov="gemini" hidden>
+      <div class="peldanos">
+        <div class="peldano"><h4>Gemini 3.1 Flash-Lite</h4><p>El más económico, para tareas sencillas y de mucho volumen</p><span class="precio">0,25 / 1,50</span><small>USD por millón de tokens, entrada / salida</small><span class="ojo">Con capa gratuita.</span></div>
+        <div class="peldano"><h4>Gemini 3.8 Flash</h4><p>Rápido y equilibrado para el trabajo diario</p><span class="precio">0,75 / 3,75</span><small>USD por millón de tokens, entrada / salida</small><span class="ojo">Con capa gratuita. Precio de lanzamiento hasta el 31 de diciembre; después, 1,50 / 7,50.</span></div>
+        <div class="peldano"><h4>Gemini 3.1 Pro</h4><p>Razonamiento complejo y documentos largos</p><span class="precio">2 / 12</span><small>USD por millón de tokens, entrada / salida</small><span class="ojo">Sin capa gratuita.</span></div>
+        <div class="peldano"><h4>Gemini 4 Argon</h4><p>El modelo más capaz de Google</p><span class="precio">4 / 20</span><small>USD por millón de tokens, entrada / salida</small><span class="ojo">Sin capa gratuita. Desde el 1 de diciembre; hasta entonces, 2 / 10.</span></div>
+      </div>
+      <p class="escalera-pie">Tarifas de pago de la API de Gemini (hasta 200.000 tokens de entrada), consultadas el 18 de noviembre de 2026.</p>
+    </div>
+  </div>
+
+  <div class="clave-tres">
+    <div class="clave-bloque"><h3>¿Cuánto cuesta?</h3><p>Se paga por uso. Con un modelo económico, cada tarea suele costar céntimos; los trabajos largos, como un documento extenso o un banco de preguntas grande, rondan el euro.</p></div>
+    <div class="clave-bloque"><h3>¿Es seguro?</h3><p>La clave se guarda solo en tu navegador, nunca en un servidor de estas apps. Si usas un ordenador compartido, bórrala al terminar.</p></div>
+    <div class="clave-bloque"><h3>Si se te escapa</h3><p>No la pegues en chats ni redes. Si crees que alguien la ha visto, revócala en la web del proveedor y crea otra: la antigua deja de funcionar al momento.</p></div>
+  </div>
+</section>
+
+<section class="clave" id="clave-en" data-lang="en" hidden>
+  <h2>Your AI key, explained from scratch</h2>
+  <p class="lead">The apps that use artificial intelligence ask for an AI key the first time. Getting one takes ten minutes and, with a spending limit, you will never pay more than you decide. Apps marked “No AI” in their description don't need one.</p>
+
+  <div class="clave-dos">
+    <div class="clave-bloque">
+      <h3>What is an API key?</h3>
+      <p>It is a long password that an AI company (OpenAI, Google or Anthropic) gives you so that an application can ask its model to do work on your behalf. Think of it as a prepaid card: the app uses it to order the work and the provider charges you only for what you use, usually cents.</p>
+      <p>It is not the same as a ChatGPT or Claude subscription. Those monthly plans are for chatting on their website and do not include API usage: the key is created and paid for separately, on each company's developer platform.</p>
+    </div>
+    <div class="clave-bloque">
+      <h3>How the apps work</h3>
+      <ul>
+        <li>Everything happens in your browser: nothing to install and no account to create.</li>
+        <li>The app sends your request straight to your AI provider with your key and shows you the result. No intermediate server is involved.</li>
+        <li>The key is stored in your browser and is only sent to your provider when the app asks it to do work.</li>
+        <li>Many apps accept OpenAI, Google Gemini or Anthropic Claude; some only OpenAI. Each app's description says which.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="clave-bloque guia">
+    <h3>How to get your key</h3>
+    <div class="tabs" role="tablist" aria-label="AI provider">
+      <button role="tab" aria-selected="true" data-tab="openai">OpenAI <small>works in every app</small></button>
+      <button role="tab" aria-selected="false" data-tab="gemini" tabindex="-1">Google Gemini</button>
+      <button role="tab" aria-selected="false" data-tab="anthropic" tabindex="-1">Anthropic Claude</button>
+    </div>
+    <div role="tabpanel" data-panel="openai">
+      <ol>
+        <li><div>Go to <a href="https://platform.openai.com" target="_blank" rel="noopener">platform.openai.com</a> and create an account. It is the developer platform, separate from ChatGPT, although you can use the same email.</div></li>
+        <li><div>Under <b>Billing</b>, add a payment method and buy a small credit, for example $5. It is prepaid balance: when it runs out, it stops working without charging you more.</div></li>
+        <li><div>Under <b>Limits</b>, set a low monthly spending limit. That caps the most you can spend.</div></li>
+        <li><div>Under <b>API keys</b>, click <b>Create new secret key</b>. It starts with <code>sk-</code>. Copy it right away: it is not shown again.</div></li>
+        <li><div>Paste it into the app when asked.</div></li>
+      </ol>
+      <a class="ir" href="https://platform.openai.com/api-keys" target="_blank" rel="noopener">Open the OpenAI keys page</a>
+    </div>
+    <div role="tabpanel" data-panel="gemini" hidden>
+      <ol>
+        <li><div>Go to <a href="https://aistudio.google.com/apikey" target="_blank" rel="noopener">aistudio.google.com</a> with your Google account.</div></li>
+        <li><div>Accept the terms and click <b>Create API key</b>. Google offers a free tier with usage limits, enough to try things out.</div></li>
+        <li><div>Copy the key (it starts with <code>AIza</code>).</div></li>
+        <li><div>If you use it a lot, the free tier falls short: enable billing in Google Cloud and set a budget with an alert.</div></li>
+        <li><div>Paste it into the app, choosing Google Gemini as the provider.</div></li>
+      </ol>
+      <a class="ir" href="https://aistudio.google.com/apikey" target="_blank" rel="noopener">Open Google AI Studio</a>
+    </div>
+    <div role="tabpanel" data-panel="anthropic" hidden>
+      <ol>
+        <li><div>Go to <a href="https://console.anthropic.com" target="_blank" rel="noopener">console.anthropic.com</a> and create an account. It is separate from a Claude subscription.</div></li>
+        <li><div>Under <b>Billing</b>, buy a small prepaid credit.</div></li>
+        <li><div>Under <b>Limits</b>, set a monthly spending limit.</div></li>
+        <li><div>Under <b>API keys</b>, click <b>Create key</b> and copy it (it starts with <code>sk-ant-</code>).</div></li>
+        <li><div>Paste it into the app, choosing Anthropic Claude as the provider.</div></li>
+      </ol>
+      <a class="ir" href="https://console.anthropic.com/settings/keys" target="_blank" rel="noopener">Open the Anthropic console</a>
+    </div>
+  </div>
+
+  <div class="clave-bloque">
+    <h3>Which model should I choose?</h3>
+    <p>With the same key you can use several models, from least to most capable. You pay per <b>token</b> (a token is roughly three quarters of a word): <b>input</b> tokens are what the app sends to the model and <b>output</b> tokens are what the model writes. Between the cheapest and the most expensive model from the same provider the price can be a hundred times higher, so start with the budget one and move up only if the result doesn't convince you.</p>
+    <div class="tabs" role="group" aria-label="Show models from">
+      <button type="button" data-prov="openai" aria-pressed="true">OpenAI</button>
+      <button type="button" data-prov="anthropic" aria-pressed="false">Anthropic Claude</button>
+      <button type="button" data-prov="gemini" aria-pressed="false">Google Gemini</button>
+    </div>
+    <div class="escalera" data-prov="openai">
+      <div class="peldanos">
+        <div class="peldano"><h4>GPT-6 Luna</h4><p>Narrow, high-volume tasks</p><span class="precio">0.10 / 0.50</span><small>USD per million tokens, input / output</small></div>
+        <div class="peldano"><h4>GPT-6.1 Terra</h4><p>Computer use, visual reasoning and office work</p><span class="precio">1 / 5</span><small>USD per million tokens, input / output</small></div>
+        <div class="peldano"><h4>GPT-6.1 Sol</h4><p>Balance of capability and cost for coding and professional work</p><span class="precio">2 / 10</span><small>USD per million tokens, input / output</small></div>
+        <div class="peldano"><h4>GPT-6 Astra</h4><p>The most demanding reasoning and coding</p><span class="precio">10 / 50</span><small>USD per million tokens, input / output</small></div>
+      </div>
+      <p class="escalera-pie">OpenAI base rates, late 2026 (source: LISDATA).</p>
+    </div>
+    <div class="escalera" data-prov="anthropic" hidden>
+      <div class="peldanos">
+        <div class="peldano"><h4>Claude Haiku 5.5</h4><p>Fast and affordable, for narrow, high-volume tasks</p><span class="precio">0.10 / 0.50</span><small>USD per million tokens, input / output</small><span class="ojo">Above 100,000 input tokens per request it rises to 0.50 / 2.50.</span></div>
+        <div class="peldano"><h4>Claude Sonnet 5.5</h4><p>Balance of capability and cost for everyday work</p><span class="precio">2 / 10</span><small>USD per million tokens, input / output</small></div>
+        <div class="peldano"><h4>Claude Opus 5.5</h4><p>Complex reasoning, coding and long tasks</p><span class="precio">4 / 20</span><small>USD per million tokens, input / output</small></div>
+        <div class="peldano"><h4>Claude Fable 5.1</h4><p>The most capable publicly available model, for the most demanding work</p><span class="precio">10 / 50</span><small>USD per million tokens, input / output</small></div>
+      </div>
+      <p class="escalera-pie">Base rates published by Anthropic, checked on 18 November 2026.</p>
+    </div>
+    <div class="escalera" data-prov="gemini" hidden>
+      <div class="peldanos">
+        <div class="peldano"><h4>Gemini 3.1 Flash-Lite</h4><p>The cheapest, for simple, high-volume tasks</p><span class="precio">0.25 / 1.50</span><small>USD per million tokens, input / output</small><span class="ojo">Free tier available.</span></div>
+        <div class="peldano"><h4>Gemini 3.8 Flash</h4><p>Fast and balanced for everyday work</p><span class="precio">0.75 / 3.75</span><small>USD per million tokens, input / output</small><span class="ojo">Free tier available. Launch price until 31 December; then 1.50 / 7.50.</span></div>
+        <div class="peldano"><h4>Gemini 3.1 Pro</h4><p>Complex reasoning and long documents</p><span class="precio">2 / 12</span><small>USD per million tokens, input / output</small><span class="ojo">No free tier.</span></div>
+        <div class="peldano"><h4>Gemini 4 Argon</h4><p>Google's most capable model</p><span class="precio">4 / 20</span><small>USD per million tokens, input / output</small><span class="ojo">No free tier. From 1 December; until then, 2 / 10.</span></div>
+      </div>
+      <p class="escalera-pie">Paid Gemini API rates (up to 200,000 input tokens), checked on 18 November 2026.</p>
+    </div>
+  </div>
+
+  <div class="clave-tres">
+    <div class="clave-bloque"><h3>How much does it cost?</h3><p>You pay per use. With a budget model, each task usually costs cents; long jobs, such as a lengthy document or a large question bank, come to around one euro.</p></div>
+    <div class="clave-bloque"><h3>Is it safe?</h3><p>The key is stored only in your browser, never on a server of these apps. If you use a shared computer, delete it when you finish.</p></div>
+    <div class="clave-bloque"><h3>If it leaks</h3><p>Don't paste it in chats or on social media. If you think someone has seen it, revoke it on the provider's website and create a new one: the old one stops working immediately.</p></div>
+  </div>
+</section>
 
 <footer>
   <p><span data-i18n="footDev"></span> <a href="https://github.com/fborrasumh" target="_blank" rel="noopener">@fborrasumh</a> · Universidad Miguel Hernández de Elche</p>
@@ -1279,7 +1532,20 @@ function applyLang() {
       thTool:"thTool", thDesc:"thDesc", thCat:"thCat", empty:"empty", footDev:"footDev", footKey:"footKey" };
     if (map[k]) el.textContent = t(map[k]);
   });
+  document.querySelectorAll(".clave[data-lang]").forEach(sec => { sec.hidden = sec.dataset.lang !== lang; });
 }
+
+/* Pestañas de proveedor y selector de modelos (sección de la clave) */
+document.querySelectorAll(".clave").forEach(sec => {
+  sec.querySelectorAll("[data-tab]").forEach(b => b.addEventListener("click", () => {
+    sec.querySelectorAll("[data-tab]").forEach(x => { const on = x === b; x.setAttribute("aria-selected", on); x.tabIndex = on ? 0 : -1; });
+    sec.querySelectorAll("[data-panel]").forEach(pn => { pn.hidden = pn.dataset.panel !== b.dataset.tab; });
+  }));
+  sec.querySelectorAll("button[data-prov]").forEach(b => b.addEventListener("click", () => {
+    sec.querySelectorAll("button[data-prov]").forEach(x => x.setAttribute("aria-pressed", x === b));
+    sec.querySelectorAll(".escalera").forEach(e => { e.hidden = e.dataset.prov !== b.dataset.prov; });
+  }));
+});
 
 function setFilter(cat, el) {
   activeCat = cat;
